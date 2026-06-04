@@ -1,0 +1,24 @@
+{
+  "name": "mahi-store",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "apps/admin",
+    "apps/storefront",
+    "apps/api",
+    "packages/*"
+  ],
+  "overrides": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "scripts": {
+    "dev:admin": "npm run dev --workspace apps/admin",
+    "dev:store": "npm run dev --workspace apps/storefront",
+    "dev:api": "npm run dev --workspace apps/api",
+    "dev": "concurrently \"npm run dev:api\" \"npm run dev:admin\" \"npm run dev:store\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
