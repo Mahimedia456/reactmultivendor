@@ -8,6 +8,9 @@
     "apps/api",
     "packages/*"
   ],
+  "engines": {
+  "node": "22.x"
+},
   "overrides": {
     "react": "18.2.0",
     "react-dom": "18.2.0"
