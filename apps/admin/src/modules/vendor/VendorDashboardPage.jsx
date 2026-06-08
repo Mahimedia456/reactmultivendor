@@ -6,6 +6,7 @@ import {
   TrendingUp,
   Wallet,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 import VendorPageHeader from "./components/VendorPageHeader";
 import VendorStatCard from "./components/VendorStatCard";
@@ -17,58 +18,60 @@ const recentOrders = [
     id: "#ORD-1001",
     customer: "Ali Khan",
     amount: "$120",
-    status: "Processing",
+    status: "processing",
   },
   {
     id: "#ORD-1002",
     customer: "Ahmed",
     amount: "$55",
-    status: "Completed",
+    status: "completed",
   },
   {
     id: "#ORD-1003",
     customer: "Sara",
     amount: "$240",
-    status: "Pending",
+    status: "pending",
   },
 ];
 
 export default function VendorDashboardPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="space-y-6">
       <VendorPageHeader
-        title="Vendor Dashboard"
-        description="Overview of your products, orders, earnings and store performance."
+        title={t("vendorPanel.dashboard.title")}
+        description={t("vendorPanel.dashboard.description")}
       />
 
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
         <VendorStatCard
-          title="Total Products"
+          title={t("vendorPanel.dashboard.totalProducts")}
           value="128"
-          note="12 added this month"
+          note={t("vendorPanel.dashboard.productsAddedThisMonth")}
           icon={Package}
         />
 
         <VendorStatCard
-          title="Orders"
+          title={t("vendorPanel.dashboard.orders")}
           value="542"
-          note="+18% this month"
+          note={t("vendorPanel.dashboard.ordersGrowth")}
           icon={ShoppingCart}
           tone="blue"
         />
 
         <VendorStatCard
-          title="Revenue"
+          title={t("vendorPanel.dashboard.revenue")}
           value="$12,450"
-          note="This month"
+          note={t("vendorPanel.dashboard.thisMonth")}
           icon={DollarSign}
           tone="green"
         />
 
         <VendorStatCard
-          title="Wallet Balance"
+          title={t("vendorPanel.dashboard.walletBalance")}
           value="$3,250"
-          note="Available for payout"
+          note={t("vendorPanel.dashboard.availableForPayout")}
           icon={Wallet}
           tone="orange"
         />
@@ -77,16 +80,24 @@ export default function VendorDashboardPage() {
       <div className="grid gap-6 xl:grid-cols-3">
         <div className="xl:col-span-2">
           <VendorTableCard
-            title="Recent Orders"
-            description="Latest orders received"
+            title={t("vendorPanel.dashboard.recentOrders")}
+            description={t("vendorPanel.dashboard.recentOrdersDescription")}
           >
             <table className="w-full">
               <thead>
                 <tr className="border-b border-panel-line dark:border-panel-darkLine">
-                  <th className="px-5 py-4 text-left">Order</th>
-                  <th className="px-5 py-4 text-left">Customer</th>
-                  <th className="px-5 py-4 text-left">Amount</th>
-                  <th className="px-5 py-4 text-left">Status</th>
+                  <th className="px-5 py-4 text-left">
+                    {t("vendorPanel.dashboard.order")}
+                  </th>
+                  <th className="px-5 py-4 text-left">
+                    {t("vendorPanel.dashboard.customer")}
+                  </th>
+                  <th className="px-5 py-4 text-left">
+                    {t("vendorPanel.dashboard.amount")}
+                  </th>
+                  <th className="px-5 py-4 text-left">
+                    {t("vendorPanel.common.status")}
+                  </th>
                 </tr>
               </thead>
 
@@ -111,17 +122,17 @@ export default function VendorDashboardPage() {
 
         <div className="space-y-5">
           <VendorStatCard
-            title="Store Rating"
+            title={t("vendorPanel.dashboard.storeRating")}
             value="4.8"
-            note="Based on 2,145 reviews"
+            note={t("vendorPanel.dashboard.reviewsNote")}
             icon={Star}
             tone="green"
           />
 
           <VendorStatCard
-            title="Growth"
+            title={t("vendorPanel.dashboard.growth")}
             value="+18%"
-            note="Compared to last month"
+            note={t("vendorPanel.dashboard.growthNote")}
             icon={TrendingUp}
             tone="blue"
           />

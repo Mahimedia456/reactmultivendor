@@ -9,6 +9,7 @@ import {
   Users,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import VendorPageHeader from "../components/VendorPageHeader";
 import VendorStatCard from "../components/VendorStatCard";
@@ -24,7 +25,7 @@ const customers = [
     orders: 12,
     spent: "$1,240",
     lastOrder: "2026-06-04",
-    status: "Active",
+    status: "active",
   },
   {
     id: "502",
@@ -34,7 +35,7 @@ const customers = [
     orders: 8,
     spent: "$820",
     lastOrder: "2026-06-02",
-    status: "Active",
+    status: "active",
   },
   {
     id: "503",
@@ -44,34 +45,36 @@ const customers = [
     orders: 3,
     spent: "$210",
     lastOrder: "2026-05-29",
-    status: "Pending",
+    status: "pending",
   },
 ];
 
 export default function VendorCustomersPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="space-y-6">
       <VendorPageHeader
-        title="Vendor Customers"
-        description="Customers who purchased products from your vendor store."
+        title={t("vendorPanel.customers.title")}
+        description={t("vendorPanel.customers.description")}
       />
 
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-        <VendorStatCard title="Total Customers" value="1,248" icon={Users} />
-        <VendorStatCard title="Repeat Buyers" value="428" icon={ShoppingBag} tone="green" />
-        <VendorStatCard title="New This Month" value="96" icon={UserRound} tone="blue" />
-        <VendorStatCard title="Avg. Spend" value="$84.50" icon={ShoppingBag} tone="orange" />
+        <VendorStatCard title={t("vendorPanel.customers.totalCustomers")} value="1,248" icon={Users} />
+        <VendorStatCard title={t("vendorPanel.customers.repeatBuyers")} value="428" icon={ShoppingBag} tone="green" />
+        <VendorStatCard title={t("vendorPanel.customers.newThisMonth")} value="96" icon={UserRound} tone="blue" />
+        <VendorStatCard title={t("vendorPanel.customers.avgSpend")} value="$84.50" icon={ShoppingBag} tone="orange" />
       </div>
 
       <VendorTableCard
-        title="Customer List"
-        description="View buyer profiles, order history and customer activity"
+        title={t("vendorPanel.customers.customerList")}
+        description={t("vendorPanel.customers.customerListDescription")}
         action={
           <div className="flex items-center gap-2 rounded-xl border border-slate-300 px-3 py-2 dark:border-panel-darkLine">
             <Search size={17} className="text-slate-400" />
             <input
               className="bg-transparent text-sm font-semibold outline-none"
-              placeholder="Search customers..."
+              placeholder={t("vendorPanel.customers.searchPlaceholder")}
             />
           </div>
         }
@@ -79,13 +82,13 @@ export default function VendorCustomersPage() {
         <table className="w-full min-w-[980px] text-left">
           <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500 dark:bg-white/5">
             <tr>
-              <th className="px-5 py-4">Customer</th>
-              <th className="px-5 py-4">Contact</th>
-              <th className="px-5 py-4">Orders</th>
-              <th className="px-5 py-4">Total Spent</th>
-              <th className="px-5 py-4">Last Order</th>
-              <th className="px-5 py-4">Status</th>
-              <th className="px-5 py-4 text-right">Actions</th>
+              <th className="px-5 py-4">{t("vendorPanel.customers.customer")}</th>
+              <th className="px-5 py-4">{t("vendorPanel.customers.contact")}</th>
+              <th className="px-5 py-4">{t("vendorPanel.customers.orders")}</th>
+              <th className="px-5 py-4">{t("vendorPanel.customers.totalSpent")}</th>
+              <th className="px-5 py-4">{t("vendorPanel.customers.lastOrder")}</th>
+              <th className="px-5 py-4">{t("vendorPanel.common.status")}</th>
+              <th className="px-5 py-4 text-right">{t("vendorPanel.common.actions")}</th>
             </tr>
           </thead>
 
@@ -102,7 +105,7 @@ export default function VendorCustomersPage() {
                         {customer.name}
                       </p>
                       <p className="text-xs font-semibold text-slate-400">
-                        Customer ID #{customer.id}
+                        {t("vendorPanel.customers.customerId", { id: customer.id })}
                       </p>
                     </div>
                   </div>
@@ -130,13 +133,9 @@ export default function VendorCustomersPage() {
 
                 <td className="px-5 py-4">
                   <div className="flex justify-end gap-2">
-                    <Link
-                      to={`/vendor/customers/${customer.id}`}
-                      className="ms-btn-soft h-9 w-9 px-0"
-                    >
+                    <Link to={`/vendor/customers/${customer.id}`} className="ms-btn-soft h-9 w-9 px-0">
                       <Eye size={16} />
                     </Link>
-
                     <button className="ms-btn-soft h-9 w-9 px-0 text-red-500">
                       <Trash2 size={16} />
                     </button>

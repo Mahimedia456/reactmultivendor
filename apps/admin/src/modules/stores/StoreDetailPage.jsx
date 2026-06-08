@@ -10,9 +10,11 @@ import {
   WalletCards,
 } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function StoreDetailPage() {
   const { id } = useParams();
+  const { t } = useTranslation();
 
   const store = {
     id,
@@ -21,7 +23,7 @@ export default function StoreDetailPage() {
     vendor: "Aamir",
     email: "aamir@mahistore.com",
     phone: "+92 308 2544148",
-    status: "Open",
+    status: "open",
     commission: "10%",
     rating: "4.8",
     wallet: "Rs 92,000",
@@ -31,7 +33,36 @@ export default function StoreDetailPage() {
     customers: 318,
   };
 
-  const tabs = ["Overview", "Products", "Orders", "Reviews", "Payouts", "Settings"];
+  const tabs = [
+    "storesPage.overview",
+    "storesPage.products",
+    "storesPage.ordersTab",
+    "storesPage.reviews",
+    "storesPage.payouts",
+    "storesPage.settings",
+  ];
+
+  const stats = [
+    ["storesPage.totalSales", store.sales, CreditCard],
+    ["storesPage.orders", store.orders, ShoppingCart],
+    ["storesPage.products", store.products, Package],
+    ["customers.title", store.customers, Users],
+  ];
+
+  const info = [
+    ["storesPage.storeName", store.name],
+    ["storesPage.vendorOwner", store.vendor],
+    ["common.email", store.email],
+    ["common.phone", store.phone],
+    ["storesPage.storeSlug", store.slug],
+    ["storesPage.commission", store.commission],
+  ];
+
+  const activities = [
+    "storesPage.activityNewOrder",
+    "storesPage.activityStockUpdated",
+    "storesPage.activityPayoutSubmitted",
+  ];
 
   return (
     <div className="space-y-5">
@@ -42,7 +73,7 @@ export default function StoreDetailPage() {
             className="mb-3 inline-flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-brand-700"
           >
             <ArrowLeft size={16} />
-            Back to stores
+            {t("storesPage.backToStores")}
           </Link>
 
           <div className="flex items-center gap-3">
@@ -60,41 +91,48 @@ export default function StoreDetailPage() {
 
         <Link to={`/admin/stores/${id}/edit`} className="ms-btn-primary gap-2">
           <Edit size={17} />
-          Edit Store
+          {t("storesPage.editStore")}
         </Link>
       </div>
 
       <div className="rounded-card border border-panel-line bg-white p-5 dark:border-panel-darkLine dark:bg-panel-darkCard">
         <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
           <div>
-            <p className="text-sm font-black text-slate-500">Store Status</p>
+            <p className="text-sm font-black text-slate-500">
+              {t("storesPage.storeStatusLabel")}
+            </p>
             <div className="mt-2 flex flex-wrap items-center gap-2">
-              <span className="ms-badge-success">{store.status}</span>
-              <span className="ms-badge">Commission {store.commission}</span>
-              <span className="ms-badge">Rating {store.rating}</span>
+              <span className="ms-badge-success">
+                {t(`storesPage.${store.status}`)}
+              </span>
+              <span className="ms-badge">
+                {t("storesPage.commission")} {store.commission}
+              </span>
+              <span className="ms-badge">
+                {t("storesPage.rating")} {store.rating}
+              </span>
             </div>
           </div>
 
           <div className="grid gap-2 sm:grid-cols-3">
-            <button className="ms-btn-soft">Suspend</button>
-            <button className="ms-btn-soft">View Public Store</button>
-            <button className="ms-btn-soft">Documents</button>
+            <button className="ms-btn-soft">{t("storesPage.suspend")}</button>
+            <button className="ms-btn-soft">
+              {t("storesPage.viewPublicStore")}
+            </button>
+            <button className="ms-btn-soft">{t("storesPage.documents")}</button>
           </div>
         </div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-4">
-        {[
-          ["Total Sales", store.sales, CreditCard],
-          ["Orders", store.orders, ShoppingCart],
-          ["Products", store.products, Package],
-          ["Customers", store.customers, Users],
-        ].map(([label, value, Icon]) => (
-          <div key={label} className="ms-card p-5">
+        {stats.map(([labelKey, value, Icon]) => (
+          <div key={labelKey} className="ms-card p-5">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50 text-brand-700 dark:bg-brand-500/10 dark:text-brand-300">
               <Icon size={18} />
             </div>
-            <p className="mt-4 text-sm font-bold text-slate-500">{label}</p>
+            <p className="mt-4 text-sm font-bold text-slate-500">
+              {t(labelKey)}
+            </p>
             <h3 className="mt-1 text-xl font-black">{value}</h3>
           </div>
         ))}
@@ -102,12 +140,12 @@ export default function StoreDetailPage() {
 
       <div className="ms-card p-3">
         <div className="flex flex-wrap gap-2">
-          {tabs.map((tab, index) => (
+          {tabs.map((tabKey, index) => (
             <button
-              key={tab}
+              key={tabKey}
               className={index === 0 ? "ms-btn-primary h-10" : "ms-btn-soft"}
             >
-              {tab}
+              {t(tabKey)}
             </button>
           ))}
         </div>
@@ -115,23 +153,18 @@ export default function StoreDetailPage() {
 
       <div className="grid gap-5 xl:grid-cols-[1fr_0.8fr]">
         <div className="ms-card p-5">
-          <h3 className="text-lg font-black">Store Information</h3>
+          <h3 className="text-lg font-black">
+            {t("storesPage.storeInformation")}
+          </h3>
 
           <div className="mt-5 grid gap-4 md:grid-cols-2">
-            {[
-              ["Store Name", store.name],
-              ["Vendor Owner", store.vendor],
-              ["Email", store.email],
-              ["Phone", store.phone],
-              ["Store Slug", store.slug],
-              ["Commission", store.commission],
-            ].map(([label, value]) => (
+            {info.map(([labelKey, value]) => (
               <div
-                key={label}
+                key={labelKey}
                 className="rounded-lg border border-panel-line p-4 dark:border-panel-darkLine"
               >
                 <p className="text-xs font-black uppercase text-slate-400">
-                  {label}
+                  {t(labelKey)}
                 </p>
                 <p className="mt-2 font-bold">{value}</p>
               </div>
@@ -141,7 +174,9 @@ export default function StoreDetailPage() {
 
         <div className="space-y-5">
           <div className="ms-card p-5">
-            <h3 className="text-lg font-black">Wallet Summary</h3>
+            <h3 className="text-lg font-black">
+              {t("storesPage.walletSummary")}
+            </h3>
 
             <div className="mt-5 flex items-center gap-3">
               <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-brand-50 text-brand-700 dark:bg-brand-500/10 dark:text-brand-300">
@@ -149,20 +184,22 @@ export default function StoreDetailPage() {
               </div>
               <div>
                 <p className="text-sm font-bold text-slate-500">
-                  Available Balance
+                  {t("storesPage.availableBalance")}
                 </p>
                 <h4 className="text-2xl font-black">{store.wallet}</h4>
               </div>
             </div>
 
             <button className="ms-btn-soft mt-5 w-full justify-between">
-              <span>View Payout History</span>
-              <span>12 records</span>
+              <span>{t("storesPage.viewPayoutHistory")}</span>
+              <span>{t("storesPage.records12")}</span>
             </button>
           </div>
 
           <div className="ms-card p-5">
-            <h3 className="text-lg font-black">Store Rating</h3>
+            <h3 className="text-lg font-black">
+              {t("storesPage.storeRating")}
+            </h3>
 
             <div className="mt-5 flex items-center gap-3">
               <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-brand-50 text-brand-700">
@@ -171,7 +208,7 @@ export default function StoreDetailPage() {
               <div>
                 <h4 className="text-2xl font-black">{store.rating}/5</h4>
                 <p className="text-sm font-bold text-slate-500">
-                  Based on product and store reviews
+                  {t("storesPage.ratingText")}
                 </p>
               </div>
             </div>
@@ -180,19 +217,17 @@ export default function StoreDetailPage() {
       </div>
 
       <div className="ms-card p-5">
-        <h3 className="text-lg font-black">Recent Store Activity</h3>
+        <h3 className="text-lg font-black">
+          {t("storesPage.recentStoreActivity")}
+        </h3>
 
         <div className="mt-5 space-y-3">
-          {[
-            "New order received from customer Ahmed Raza",
-            "Vendor updated Elyndor Perfume stock",
-            "Payout request submitted for Rs 30,000",
-          ].map((activity) => (
+          {activities.map((activityKey) => (
             <div
-              key={activity}
+              key={activityKey}
               className="rounded-lg border border-panel-line p-4 text-sm font-semibold dark:border-panel-darkLine"
             >
-              {activity}
+              {t(activityKey)}
             </div>
           ))}
         </div>

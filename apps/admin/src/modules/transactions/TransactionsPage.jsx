@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { CreditCard, Eye, Plus, Search } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const transactions = [
   {
@@ -7,60 +8,68 @@ const transactions = [
     order: "MS-1001",
     customer: "Ahmed Raza",
     vendor: "Aamir Fragrances",
-    method: "COD",
+    methodKey: "transactionsPage.cod",
     amount: "Rs 6,700",
-    status: "Pending",
-    date: "Today",
+    status: "pending",
+    dateKey: "transactionsPage.today",
   },
   {
     id: "TXN-1002",
     order: "MS-1002",
     customer: "Sara Khan",
     vendor: "Urban Deals",
-    method: "Card",
+    methodKey: "transactionsPage.card",
     amount: "Rs 8,200",
-    status: "Paid",
-    date: "Yesterday",
+    status: "paid",
+    dateKey: "transactionsPage.yesterday",
   },
   {
     id: "TXN-1003",
     order: "MS-1003",
     customer: "Hamza Ali",
     vendor: "Tech Point",
-    method: "Bank Transfer",
+    methodKey: "transactionsPage.bankTransfer",
     amount: "Rs 18,900",
-    status: "Failed",
-    date: "2 days ago",
+    status: "failed",
+    dateKey: "transactionsPage.twoDaysAgo",
   },
 ];
 
 export default function TransactionsPage() {
+  const { t } = useTranslation();
+
+  const stats = [
+    ["transactionsPage.totalCollected", "Rs 8.4M"],
+    ["transactionsPage.codPending", "Rs 420k"],
+    ["transactionsPage.paidOnline", "Rs 3.2M"],
+    ["status.failed", "86"],
+  ];
+
   return (
     <div className="space-y-5">
       <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
         <div>
-          <p className="text-sm font-bold text-slate-500">Sales / Transactions</p>
-          <h1 className="mt-1 text-2xl font-black">Transactions</h1>
+          <p className="text-sm font-bold text-slate-500">
+            {t("transactionsPage.breadcrumb")}
+          </p>
+          <h1 className="mt-1 text-2xl font-black">
+            {t("transactionsPage.title")}
+          </h1>
           <p className="mt-1 text-sm font-semibold text-slate-500">
-            Track COD, paid, failed, refunded and vendor payment transactions.
+            {t("transactionsPage.description")}
           </p>
         </div>
 
         <Link to="/admin/transactions/create" className="ms-btn-primary gap-2">
           <Plus size={17} />
-          Create Transaction
+          {t("transactionsPage.createTransaction")}
         </Link>
       </div>
 
       <div className="grid gap-4 md:grid-cols-4">
-        {[
-          ["Total Collected", "Rs 8.4M"],
-          ["COD Pending", "Rs 420k"],
-          ["Paid Online", "Rs 3.2M"],
-          ["Failed", "86"],
-        ].map(([label, value]) => (
-          <div key={label} className="ms-card p-5">
-            <p className="text-sm font-bold text-slate-500">{label}</p>
+        {stats.map(([labelKey, value]) => (
+          <div key={labelKey} className="ms-card p-5">
+            <p className="text-sm font-bold text-slate-500">{t(labelKey)}</p>
             <h3 className="mt-2 text-2xl font-black">{value}</h3>
           </div>
         ))}
@@ -72,7 +81,7 @@ export default function TransactionsPage() {
             <Search size={17} className="text-slate-400" />
             <input
               className="w-full bg-transparent text-sm font-medium outline-none"
-              placeholder="Search transaction, order, customer..."
+              placeholder={t("transactionsPage.searchPlaceholder")}
             />
           </div>
         </div>
@@ -81,15 +90,15 @@ export default function TransactionsPage() {
           <table className="w-full min-w-[1120px] text-left">
             <thead className="ms-table-head">
               <tr>
-                <th className="px-5 py-3">Transaction</th>
-                <th className="px-5 py-3">Order</th>
-                <th className="px-5 py-3">Customer</th>
-                <th className="px-5 py-3">Vendor</th>
-                <th className="px-5 py-3">Method</th>
-                <th className="px-5 py-3">Amount</th>
-                <th className="px-5 py-3">Status</th>
-                <th className="px-5 py-3">Date</th>
-                <th className="px-5 py-3 text-right">Action</th>
+                <th className="px-5 py-3">{t("transactionsPage.transaction")}</th>
+                <th className="px-5 py-3">{t("transactionsPage.order")}</th>
+                <th className="px-5 py-3">{t("transactionsPage.customer")}</th>
+                <th className="px-5 py-3">{t("transactionsPage.vendor")}</th>
+                <th className="px-5 py-3">{t("transactionsPage.method")}</th>
+                <th className="px-5 py-3">{t("transactionsPage.amount")}</th>
+                <th className="px-5 py-3">{t("common.status")}</th>
+                <th className="px-5 py-3">{t("transactionsPage.date")}</th>
+                <th className="px-5 py-3 text-right">{t("common.action")}</th>
               </tr>
             </thead>
 
@@ -104,25 +113,31 @@ export default function TransactionsPage() {
                       <p className="font-black">{item.id}</p>
                     </div>
                   </td>
+
                   <td className="px-5 py-4 text-sm font-semibold">{item.order}</td>
                   <td className="px-5 py-4 text-sm font-semibold">{item.customer}</td>
                   <td className="px-5 py-4 text-sm font-semibold">{item.vendor}</td>
-                  <td className="px-5 py-4 text-sm font-semibold">{item.method}</td>
+                  <td className="px-5 py-4 text-sm font-semibold">{t(item.methodKey)}</td>
                   <td className="px-5 py-4 text-sm font-black">{item.amount}</td>
+
                   <td className="px-5 py-4">
                     <span
                       className={
-                        item.status === "Paid"
+                        item.status === "paid"
                           ? "ms-badge-success"
-                          : item.status === "Pending"
+                          : item.status === "pending"
                           ? "ms-badge-warning"
                           : "ms-badge-danger"
                       }
                     >
-                      {item.status}
+                      {t(`status.${item.status}`)}
                     </span>
                   </td>
-                  <td className="px-5 py-4 text-sm font-semibold">{item.date}</td>
+
+                  <td className="px-5 py-4 text-sm font-semibold">
+                    {t(item.dateKey)}
+                  </td>
+
                   <td className="px-5 py-4 text-right">
                     <Link
                       to={`/admin/transactions/${item.id}`}

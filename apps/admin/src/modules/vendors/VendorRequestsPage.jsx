@@ -1,4 +1,5 @@
 import { Check, Eye, Store, X } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import VendorStatusBadge from "./components/VendorStatusBadge";
 
 const requests = [
@@ -7,8 +8,8 @@ const requests = [
     store: "Fashion Hub",
     owner: "Sara",
     email: "sara@fashionhub.com",
-    category: "Fashion",
-    documents: "Submitted",
+    categoryKey: "vendorsPage.fashion",
+    documentsKey: "vendorsPage.submitted",
     status: "pending",
   },
   {
@@ -16,30 +17,36 @@ const requests = [
     store: "Pet World",
     owner: "Hamza",
     email: "hamza@petworld.com",
-    category: "Pet Supplies",
-    documents: "Missing Tax Document",
+    categoryKey: "vendorsPage.petSupplies",
+    documentsKey: "vendorsPage.missingTaxDocument",
     status: "pending",
   },
 ];
 
 export default function VendorRequestsPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="space-y-5">
       <div>
-        <p className="text-sm font-bold text-slate-500">Marketplace / Vendor Requests</p>
-        <h1 className="mt-1 text-2xl font-black">Vendor Approval Requests</h1>
+        <p className="text-sm font-bold text-slate-500">
+          {t("vendorsPage.requestsBreadcrumb")}
+        </p>
+        <h1 className="mt-1 text-2xl font-black">
+          {t("vendorsPage.vendorApprovalRequests")}
+        </h1>
       </div>
 
       <div className="ms-card overflow-hidden">
         <table className="w-full min-w-[850px] text-left">
           <thead className="ms-table-head">
             <tr>
-              <th className="px-5 py-3">Store</th>
-              <th className="px-5 py-3">Owner</th>
-              <th className="px-5 py-3">Category</th>
-              <th className="px-5 py-3">Documents</th>
-              <th className="px-5 py-3">Status</th>
-              <th className="px-5 py-3 text-right">Actions</th>
+              <th className="px-5 py-3">{t("vendorsPage.store")}</th>
+              <th className="px-5 py-3">{t("vendorsPage.owner")}</th>
+              <th className="px-5 py-3">{t("vendorsPage.category")}</th>
+              <th className="px-5 py-3">{t("vendorsPage.documents")}</th>
+              <th className="px-5 py-3">{t("vendorsPage.status")}</th>
+              <th className="px-5 py-3 text-right">{t("common.actions")}</th>
             </tr>
           </thead>
 
@@ -57,12 +64,14 @@ export default function VendorRequestsPage() {
                     </div>
                   </div>
                 </td>
+
                 <td className="px-5 py-4 text-sm font-semibold">{item.owner}</td>
-                <td className="px-5 py-4 text-sm font-semibold">{item.category}</td>
-                <td className="px-5 py-4 text-sm font-semibold">{item.documents}</td>
+                <td className="px-5 py-4 text-sm font-semibold">{t(item.categoryKey)}</td>
+                <td className="px-5 py-4 text-sm font-semibold">{t(item.documentsKey)}</td>
                 <td className="px-5 py-4">
                   <VendorStatusBadge status={item.status} />
                 </td>
+
                 <td className="px-5 py-4">
                   <div className="flex justify-end gap-2">
                     <button className="ms-btn-soft h-9 w-9 px-0">

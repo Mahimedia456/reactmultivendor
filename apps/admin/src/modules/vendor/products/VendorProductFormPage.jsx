@@ -1,10 +1,13 @@
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, Save } from "lucide-react";
+import { useTranslation } from "react-i18next";
+
 import VendorPageHeader from "../components/VendorPageHeader";
 
 export default function VendorProductFormPage() {
   const { id } = useParams();
   const isEdit = Boolean(id);
+  const { t } = useTranslation();
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -18,12 +21,12 @@ export default function VendorProductFormPage() {
   return (
     <div className="space-y-6">
       <VendorPageHeader
-        title={isEdit ? "Edit Product" : "Add Product"}
-        description="Create or update product information, pricing, stock, category and publishing status."
+        title={isEdit ? t("vendorPanel.products.editProduct") : t("vendorPanel.products.addProduct")}
+        description={t("vendorPanel.products.formDescription")}
         action={
           <Link to="/vendor/products" className="ms-btn-soft inline-flex items-center gap-2">
             <ArrowLeft size={17} />
-            Back to Products
+            {t("vendorPanel.products.backToProducts")}
           </Link>
         }
       />
@@ -32,71 +35,89 @@ export default function VendorProductFormPage() {
         <div className="space-y-6">
           <div className="rounded-2xl border border-panel-line bg-white p-6 shadow-sm dark:border-panel-darkLine dark:bg-panel-darkCard">
             <h3 className="text-lg font-black text-slate-950 dark:text-white">
-              Basic Information
+              {t("vendorPanel.products.basicInformation")}
             </h3>
 
             <div className="mt-5 grid gap-5 md:grid-cols-2">
               <div className="md:col-span-2">
-                <label className="mb-2 block text-sm font-black">Product Name</label>
+                <label className="mb-2 block text-sm font-black">
+                  {t("vendorPanel.products.productName")}
+                </label>
                 <input
                   name="name"
                   className="ms-input"
                   defaultValue={isEdit ? "Wireless Gaming Mouse" : ""}
-                  placeholder="Enter product name"
+                  placeholder={t("vendorPanel.products.enterProductName")}
                 />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-black">SKU</label>
+                <label className="mb-2 block text-sm font-black">
+                  {t("vendorPanel.products.sku")}
+                </label>
                 <input
                   name="sku"
                   className="ms-input"
                   defaultValue={isEdit ? "MS-MOUSE-001" : ""}
-                  placeholder="SKU"
+                  placeholder={t("vendorPanel.products.sku")}
                 />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-black">Barcode</label>
-                <input name="barcode" className="ms-input" placeholder="Barcode / GTIN" />
+                <label className="mb-2 block text-sm font-black">
+                  {t("vendorPanel.products.barcode")}
+                </label>
+                <input
+                  name="barcode"
+                  className="ms-input"
+                  placeholder={t("vendorPanel.products.barcodePlaceholder")}
+                />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-black">Category</label>
+                <label className="mb-2 block text-sm font-black">
+                  {t("vendorPanel.products.category")}
+                </label>
                 <select name="category" className="ms-input">
-                  <option>Electronics</option>
-                  <option>Fashion</option>
-                  <option>Home & Living</option>
-                  <option>Beauty</option>
-                  <option>Grocery</option>
+                  <option>{t("vendorPanel.products.electronics")}</option>
+                  <option>{t("vendorPanel.products.fashion")}</option>
+                  <option>{t("vendorPanel.products.homeLiving")}</option>
+                  <option>{t("vendorPanel.products.beauty")}</option>
+                  <option>{t("vendorPanel.products.grocery")}</option>
                 </select>
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-black">Brand</label>
+                <label className="mb-2 block text-sm font-black">
+                  {t("vendorPanel.products.brand")}
+                </label>
                 <select name="brand" className="ms-input">
                   <option>Mahi Store</option>
-                  <option>Apple</option>
-                  <option>Samsung</option>
-                  <option>Generic</option>
+                  <option>{t("vendorPanel.products.apple")}</option>
+                  <option>{t("vendorPanel.products.samsung")}</option>
+                  <option>{t("vendorPanel.products.generic")}</option>
                 </select>
               </div>
 
               <div className="md:col-span-2">
-                <label className="mb-2 block text-sm font-black">Short Description</label>
+                <label className="mb-2 block text-sm font-black">
+                  {t("vendorPanel.products.shortDescription")}
+                </label>
                 <textarea
                   name="short_description"
                   className="ms-input min-h-24"
-                  placeholder="Short product summary"
+                  placeholder={t("vendorPanel.products.shortDescriptionPlaceholder")}
                 />
               </div>
 
               <div className="md:col-span-2">
-                <label className="mb-2 block text-sm font-black">Full Description</label>
+                <label className="mb-2 block text-sm font-black">
+                  {t("vendorPanel.products.fullDescription")}
+                </label>
                 <textarea
                   name="description"
                   className="ms-input min-h-44"
-                  placeholder="Full product description"
+                  placeholder={t("vendorPanel.products.fullDescriptionPlaceholder")}
                 />
               </div>
             </div>
@@ -104,37 +125,49 @@ export default function VendorProductFormPage() {
 
           <div className="rounded-2xl border border-panel-line bg-white p-6 shadow-sm dark:border-panel-darkLine dark:bg-panel-darkCard">
             <h3 className="text-lg font-black text-slate-950 dark:text-white">
-              Pricing & Inventory
+              {t("vendorPanel.products.pricingInventory")}
             </h3>
 
             <div className="mt-5 grid gap-5 md:grid-cols-3">
               <div>
-                <label className="mb-2 block text-sm font-black">Regular Price</label>
+                <label className="mb-2 block text-sm font-black">
+                  {t("vendorPanel.products.regularPrice")}
+                </label>
                 <input name="regular_price" className="ms-input" placeholder="0.00" />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-black">Sale Price</label>
+                <label className="mb-2 block text-sm font-black">
+                  {t("vendorPanel.products.salePrice")}
+                </label>
                 <input name="sale_price" className="ms-input" placeholder="0.00" />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-black">Cost Price</label>
+                <label className="mb-2 block text-sm font-black">
+                  {t("vendorPanel.products.costPrice")}
+                </label>
                 <input name="cost_price" className="ms-input" placeholder="0.00" />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-black">Stock Quantity</label>
+                <label className="mb-2 block text-sm font-black">
+                  {t("vendorPanel.products.stockQuantity")}
+                </label>
                 <input name="stock" className="ms-input" placeholder="0" />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-black">Low Stock Alert</label>
+                <label className="mb-2 block text-sm font-black">
+                  {t("vendorPanel.products.lowStockAlert")}
+                </label>
                 <input name="low_stock_threshold" className="ms-input" placeholder="5" />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-black">Weight</label>
+                <label className="mb-2 block text-sm font-black">
+                  {t("vendorPanel.products.weight")}
+                </label>
                 <input name="weight" className="ms-input" placeholder="0.5 KG" />
               </div>
             </div>
@@ -144,30 +177,34 @@ export default function VendorProductFormPage() {
         <aside className="space-y-6">
           <div className="rounded-2xl border border-panel-line bg-white p-5 shadow-sm dark:border-panel-darkLine dark:bg-panel-darkCard">
             <h3 className="text-lg font-black text-slate-950 dark:text-white">
-              Publish
+              {t("vendorPanel.products.publish")}
             </h3>
 
             <div className="mt-5 space-y-4">
               <div>
-                <label className="mb-2 block text-sm font-black">Status</label>
+                <label className="mb-2 block text-sm font-black">
+                  {t("vendorPanel.common.status")}
+                </label>
                 <select name="status" className="ms-input">
-                  <option>Draft</option>
-                  <option>Pending</option>
-                  <option>Published</option>
+                  <option value="draft">{t("vendorCommon.statuses.draft")}</option>
+                  <option value="pending">{t("vendorCommon.statuses.pending")}</option>
+                  <option value="published">{t("vendorCommon.statuses.published")}</option>
                 </select>
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-black">Visibility</label>
+                <label className="mb-2 block text-sm font-black">
+                  {t("vendorPanel.products.visibility")}
+                </label>
                 <select name="visibility" className="ms-input">
-                  <option>Visible</option>
-                  <option>Hidden</option>
+                  <option value="visible">{t("vendorPanel.products.visible")}</option>
+                  <option value="hidden">{t("vendorPanel.products.hidden")}</option>
                 </select>
               </div>
 
               <button type="submit" className="ms-btn-primary flex w-full items-center justify-center gap-2">
                 <Save size={17} />
-                {isEdit ? "Update Product" : "Create Product"}
+                {isEdit ? t("vendorPanel.products.updateProduct") : t("vendorPanel.products.createProduct")}
               </button>
             </div>
           </div>
@@ -175,18 +212,18 @@ export default function VendorProductFormPage() {
           {isEdit && (
             <div className="rounded-2xl border border-panel-line bg-white p-5 shadow-sm dark:border-panel-darkLine dark:bg-panel-darkCard">
               <h3 className="text-lg font-black text-slate-950 dark:text-white">
-                Product Tools
+                {t("vendorPanel.products.productTools")}
               </h3>
 
               <div className="mt-4 grid gap-3">
                 <Link to={`/vendor/products/${id}/images`} className="ms-btn-soft">
-                  Manage Images
+                  {t("vendorPanel.products.manageImages")}
                 </Link>
                 <Link to={`/vendor/products/${id}/variants`} className="ms-btn-soft">
-                  Manage Variants
+                  {t("vendorPanel.products.manageVariants")}
                 </Link>
                 <Link to={`/vendor/products/${id}/seo`} className="ms-btn-soft">
-                  SEO Settings
+                  {t("vendorPanel.products.seoSettings")}
                 </Link>
               </div>
             </div>

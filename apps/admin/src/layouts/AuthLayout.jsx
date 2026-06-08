@@ -1,9 +1,15 @@
 import { Outlet } from "react-router-dom";
-import { Moon, ShieldCheck, Store, Sun } from "lucide-react";
+import { Languages, Moon, ShieldCheck, Store, Sun } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { useTheme } from "../context/ThemeContext";
 
 export default function AuthLayout() {
   const { isDark, toggleTheme } = useTheme();
+  const { t, i18n } = useTranslation();
+
+  function toggleLanguage() {
+    i18n.changeLanguage(i18n.language === "de" ? "en" : "de");
+  }
 
   return (
     <div className="ms-page grid min-h-screen lg:grid-cols-[0.95fr_1.05fr]">
@@ -13,9 +19,9 @@ export default function AuthLayout() {
             <Store size={23} />
           </div>
           <div>
-            <h1 className="text-lg font-black">Mahi Store</h1>
+            <h1 className="text-lg font-black">{t("brand.name")}</h1>
             <p className="text-xs font-semibold text-slate-400">
-              Marketplace Admin System
+              {t("auth.marketplaceAdminSystem")}
             </p>
           </div>
         </div>
@@ -23,31 +29,25 @@ export default function AuthLayout() {
         <div className="flex flex-1 flex-col justify-between p-8">
           <div className="max-w-xl pt-16">
             <p className="text-xs font-black uppercase tracking-[0.18em] text-brand-400">
-              Admin & Vendor Panel
+              {t("auth.adminVendorPanel")}
             </p>
             <h2 className="mt-5 text-5xl font-black leading-tight tracking-tight">
-              Manage your complete multivendor marketplace.
+              {t("auth.heroTitle")}
             </h2>
             <p className="mt-5 text-base leading-7 text-slate-300">
-              Products, vendors, inventory, orders, payouts, shipping and
-              customers in one professional ecommerce operations dashboard.
+              {t("auth.heroText")}
             </p>
           </div>
 
           <div className="grid grid-cols-3 gap-4">
             {[
-              ["Orders", "24k"],
-              ["Vendors", "120+"],
-              ["Revenue", "8.4M"],
+              [t("auth.orders"), "24k"],
+              [t("auth.vendors"), "120+"],
+              [t("auth.revenue"), "8.4M"],
             ].map(([label, value]) => (
-              <div
-                key={label}
-                className="rounded-xl border border-white/10 bg-amazon-ink p-4"
-              >
+              <div key={label} className="rounded-xl border border-white/10 bg-amazon-ink p-4">
                 <p className="text-2xl font-black text-brand-400">{value}</p>
-                <p className="mt-1 text-xs font-semibold text-slate-400">
-                  {label}
-                </p>
+                <p className="mt-1 text-xs font-semibold text-slate-400">{label}</p>
               </div>
             ))}
           </div>
@@ -55,12 +55,18 @@ export default function AuthLayout() {
       </section>
 
       <section className="relative flex min-h-screen items-center justify-center p-6">
-        <button
-          onClick={toggleTheme}
-          className="absolute right-6 top-6 ms-btn-soft h-10 w-10 px-0"
-        >
-          {isDark ? <Sun size={17} /> : <Moon size={17} />}
-        </button>
+        <div className="absolute right-6 top-6 flex gap-2">
+          <button type="button" onClick={toggleLanguage} className="ms-btn-soft h-10 gap-2 px-3">
+            <Languages size={17} />
+            <span className="text-xs font-black uppercase">
+              {i18n.language === "de" ? "EN" : "DE"}
+            </span>
+          </button>
+
+          <button type="button" onClick={toggleTheme} className="ms-btn-soft h-10 w-10 px-0">
+            {isDark ? <Sun size={17} /> : <Moon size={17} />}
+          </button>
+        </div>
 
         <div className="w-full max-w-[440px]">
           <div className="mb-8 flex items-center gap-3 lg:hidden">
@@ -68,9 +74,9 @@ export default function AuthLayout() {
               <Store size={22} />
             </div>
             <div>
-              <h1 className="text-lg font-black">Mahi Store</h1>
+              <h1 className="text-lg font-black">{t("brand.name")}</h1>
               <p className="text-xs font-semibold text-slate-500">
-                Admin & Vendor Panel
+                {t("auth.adminVendorPanel")}
               </p>
             </div>
           </div>
@@ -81,10 +87,10 @@ export default function AuthLayout() {
                 <ShieldCheck size={24} />
               </div>
               <h2 className="text-2xl font-black tracking-tight">
-                Secure sign in
+                {t("auth.secureSignIn")}
               </h2>
               <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
-                Use the same login for admin and vendor accounts.
+                {t("auth.secureSignInText")}
               </p>
             </div>
 
@@ -92,7 +98,7 @@ export default function AuthLayout() {
           </div>
 
           <p className="mt-5 text-center text-xs font-semibold text-slate-500 dark:text-slate-400">
-            © {new Date().getFullYear()} Mahi Store Marketplace System
+            © {new Date().getFullYear()} {t("brand.marketplaceSystem")}
           </p>
         </div>
       </section>

@@ -1,25 +1,29 @@
+import { useTranslation } from "react-i18next";
+
 export default function RefundsPage() {
+  const { t } = useTranslation();
+
   const rows = [
-    ["REF-1001", "MS-1001", "Ahmed Raza", "Rs 4,500", "Pending"],
-    ["REF-1002", "MS-1008", "Sara Khan", "Rs 2,200", "Paid"],
+    ["REF-1001", "MS-1001", "Ahmed Raza", "Rs 4,500", "pending"],
+    ["REF-1002", "MS-1008", "Sara Khan", "Rs 2,200", "paid"],
   ];
 
   return (
     <div className="space-y-5">
       <div>
-        <p className="text-sm font-bold text-slate-500">Sales / Refunds</p>
-        <h1 className="mt-1 text-2xl font-black">Refunds</h1>
+        <p className="text-sm font-bold text-slate-500">{t("ordersPage.refundsBreadcrumb")}</p>
+        <h1 className="mt-1 text-2xl font-black">{t("ordersPage.refundsTitle")}</h1>
       </div>
 
       <div className="ms-card overflow-hidden">
         <table className="w-full min-w-[850px] text-left">
           <thead className="ms-table-head">
             <tr>
-              <th className="px-5 py-3">Refund ID</th>
-              <th className="px-5 py-3">Order</th>
-              <th className="px-5 py-3">Customer</th>
-              <th className="px-5 py-3">Amount</th>
-              <th className="px-5 py-3">Status</th>
+              <th className="px-5 py-3">{t("ordersPage.refundId")}</th>
+              <th className="px-5 py-3">{t("ordersPage.order")}</th>
+              <th className="px-5 py-3">{t("ordersPage.customer")}</th>
+              <th className="px-5 py-3">{t("ordersPage.amount")}</th>
+              <th className="px-5 py-3">{t("common.status")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-panel-line dark:divide-panel-darkLine">
@@ -30,8 +34,8 @@ export default function RefundsPage() {
                 <td className="px-5 py-4 text-sm font-semibold">{customer}</td>
                 <td className="px-5 py-4 text-sm font-black">{amount}</td>
                 <td className="px-5 py-4">
-                  <span className={status === "Paid" ? "ms-badge-success" : "ms-badge-warning"}>
-                    {status}
+                  <span className={status === "paid" ? "ms-badge-success" : "ms-badge-warning"}>
+                    {t(`status.${status}`)}
                   </span>
                 </td>
               </tr>

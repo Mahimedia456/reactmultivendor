@@ -1,4 +1,7 @@
+import { useTranslation } from "react-i18next";
+
 export default function VendorStatusBadge({ status }) {
+  const { t } = useTranslation();
   const key = String(status || "").toLowerCase();
 
   const styles = {
@@ -11,11 +14,12 @@ export default function VendorStatusBadge({ status }) {
     rejected: "bg-red-500/15 text-red-700 dark:text-red-400",
     refunded: "bg-red-500/15 text-red-700 dark:text-red-400",
     completed: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400",
+    suspended: "bg-red-500/15 text-red-700 dark:text-red-400",
   };
 
   return (
     <span className={`rounded-full px-3 py-1 text-xs font-black ${styles[key] || styles.draft}`}>
-      {status}
+      {t(`vendorCommon.statuses.${key}`, status)}
     </span>
   );
 }

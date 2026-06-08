@@ -1,4 +1,5 @@
 import { Check, Eye, Search, Star, Trash2, X } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const reviews = [
   {
@@ -7,8 +8,8 @@ const reviews = [
     customer: "Ahmed Raza",
     vendor: "Aamir Fragrances",
     rating: 5,
-    comment: "Excellent fragrance and long lasting.",
-    status: "Approved",
+    commentKey: "reviewsPage.excellentFragrance",
+    status: "approved",
   },
   {
     id: 2,
@@ -16,8 +17,8 @@ const reviews = [
     customer: "Sara Khan",
     vendor: "Aamir Fragrances",
     rating: 4,
-    comment: "Good scent but delivery was late.",
-    status: "Pending",
+    commentKey: "reviewsPage.goodScentLateDelivery",
+    status: "pending",
   },
   {
     id: 3,
@@ -25,31 +26,37 @@ const reviews = [
     customer: "Hamza Ali",
     vendor: "Tech Point",
     rating: 2,
-    comment: "Battery timing is not good.",
-    status: "Rejected",
+    commentKey: "reviewsPage.batteryNotGood",
+    status: "rejected",
   },
 ];
 
 export default function ReviewsPage() {
+  const { t } = useTranslation();
+
+  const stats = [
+    ["reviewsPage.totalReviews", "3,482"],
+    ["status.approved", "3,210"],
+    ["status.pending", "186"],
+    ["status.rejected", "86"],
+  ];
+
   return (
     <div className="space-y-5">
       <div>
-        <p className="text-sm font-bold text-slate-500">Catalog / Reviews</p>
-        <h1 className="mt-1 text-2xl font-black">Reviews</h1>
+        <p className="text-sm font-bold text-slate-500">
+          {t("reviewsPage.breadcrumb")}
+        </p>
+        <h1 className="mt-1 text-2xl font-black">{t("reviewsPage.title")}</h1>
         <p className="mt-1 text-sm font-semibold text-slate-500">
-          Moderate product and store reviews before publishing.
+          {t("reviewsPage.description")}
         </p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-4">
-        {[
-          ["Total Reviews", "3,482"],
-          ["Approved", "3,210"],
-          ["Pending", "186"],
-          ["Rejected", "86"],
-        ].map(([label, value]) => (
-          <div key={label} className="ms-card p-5">
-            <p className="text-sm font-bold text-slate-500">{label}</p>
+        {stats.map(([labelKey, value]) => (
+          <div key={labelKey} className="ms-card p-5">
+            <p className="text-sm font-bold text-slate-500">{t(labelKey)}</p>
             <h3 className="mt-2 text-2xl font-black">{value}</h3>
           </div>
         ))}
@@ -61,15 +68,15 @@ export default function ReviewsPage() {
             <Search size={17} className="text-slate-400" />
             <input
               className="w-full bg-transparent text-sm font-medium outline-none"
-              placeholder="Search reviews..."
+              placeholder={t("reviewsPage.searchPlaceholder")}
             />
           </div>
 
           <select className="ms-input h-10 w-44">
-            <option>All Status</option>
-            <option>Approved</option>
-            <option>Pending</option>
-            <option>Rejected</option>
+            <option>{t("reviewsPage.allStatus")}</option>
+            <option>{t("status.approved")}</option>
+            <option>{t("status.pending")}</option>
+            <option>{t("status.rejected")}</option>
           </select>
         </div>
 
@@ -77,13 +84,13 @@ export default function ReviewsPage() {
           <table className="w-full min-w-[1050px] text-left">
             <thead className="ms-table-head">
               <tr>
-                <th className="px-5 py-3">Product</th>
-                <th className="px-5 py-3">Customer</th>
-                <th className="px-5 py-3">Vendor</th>
-                <th className="px-5 py-3">Rating</th>
-                <th className="px-5 py-3">Review</th>
-                <th className="px-5 py-3">Status</th>
-                <th className="px-5 py-3 text-right">Actions</th>
+                <th className="px-5 py-3">{t("reviewsPage.product")}</th>
+                <th className="px-5 py-3">{t("reviewsPage.customer")}</th>
+                <th className="px-5 py-3">{t("reviewsPage.vendor")}</th>
+                <th className="px-5 py-3">{t("reviewsPage.rating")}</th>
+                <th className="px-5 py-3">{t("reviewsPage.review")}</th>
+                <th className="px-5 py-3">{t("common.status")}</th>
+                <th className="px-5 py-3 text-right">{t("common.actions")}</th>
               </tr>
             </thead>
 
@@ -100,19 +107,19 @@ export default function ReviewsPage() {
                     </div>
                   </td>
                   <td className="max-w-[300px] px-5 py-4 text-sm font-semibold text-slate-600 dark:text-slate-300">
-                    {review.comment}
+                    {t(review.commentKey)}
                   </td>
                   <td className="px-5 py-4">
                     <span
                       className={
-                        review.status === "Approved"
+                        review.status === "approved"
                           ? "ms-badge-success"
-                          : review.status === "Pending"
+                          : review.status === "pending"
                           ? "ms-badge-warning"
                           : "ms-badge-danger"
                       }
                     >
-                      {review.status}
+                      {t(`status.${review.status}`)}
                     </span>
                   </td>
                   <td className="px-5 py-4">

@@ -8,6 +8,7 @@ import {
   ToggleLeft,
   ToggleRight,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const stores = [
   {
@@ -17,7 +18,7 @@ const stores = [
     products: 86,
     rating: "4.8",
     orders: 420,
-    status: "Open",
+    status: "open",
   },
   {
     id: 2,
@@ -26,7 +27,7 @@ const stores = [
     products: 134,
     rating: "4.5",
     orders: 980,
-    status: "Open",
+    status: "open",
   },
   {
     id: 3,
@@ -35,37 +36,43 @@ const stores = [
     products: 48,
     rating: "4.1",
     orders: 112,
-    status: "Closed",
+    status: "closed",
   },
 ];
 
 export default function StoresPage() {
+  const { t } = useTranslation();
+
+  const stats = [
+    ["storesPage.totalStores", "126"],
+    ["storesPage.openStores", "118"],
+    ["storesPage.closedStores", "8"],
+    ["storesPage.avgRating", "4.6"],
+  ];
+
   return (
     <div className="space-y-5">
       <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
         <div>
-          <p className="text-sm font-bold text-slate-500">Marketplace / Stores</p>
-          <h1 className="mt-1 text-2xl font-black">Stores</h1>
+          <p className="text-sm font-bold text-slate-500">
+            {t("storesPage.breadcrumb")}
+          </p>
+          <h1 className="mt-1 text-2xl font-black">{t("storesPage.title")}</h1>
           <p className="mt-1 text-sm font-semibold text-slate-500">
-            Manage vendor storefronts, status, ratings and product counts.
+            {t("storesPage.description")}
           </p>
         </div>
 
         <Link to="/admin/stores/create" className="ms-btn-primary gap-2">
           <Plus size={17} />
-          Create Store
+          {t("storesPage.createStore")}
         </Link>
       </div>
 
       <div className="grid gap-4 md:grid-cols-4">
-        {[
-          ["Total Stores", "126"],
-          ["Open Stores", "118"],
-          ["Closed Stores", "8"],
-          ["Avg Rating", "4.6"],
-        ].map(([label, value]) => (
-          <div key={label} className="ms-card p-5">
-            <p className="text-sm font-bold text-slate-500">{label}</p>
+        {stats.map(([labelKey, value]) => (
+          <div key={labelKey} className="ms-card p-5">
+            <p className="text-sm font-bold text-slate-500">{t(labelKey)}</p>
             <h3 className="mt-2 text-2xl font-black">{value}</h3>
           </div>
         ))}
@@ -77,7 +84,7 @@ export default function StoresPage() {
             <Search size={17} className="text-slate-400" />
             <input
               className="w-full bg-transparent text-sm font-medium outline-none"
-              placeholder="Search stores..."
+              placeholder={t("storesPage.searchPlaceholder")}
             />
           </div>
         </div>
@@ -86,13 +93,13 @@ export default function StoresPage() {
           <table className="w-full min-w-[950px] text-left">
             <thead className="ms-table-head">
               <tr>
-                <th className="px-5 py-3">Store</th>
-                <th className="px-5 py-3">Vendor</th>
-                <th className="px-5 py-3">Products</th>
-                <th className="px-5 py-3">Orders</th>
-                <th className="px-5 py-3">Rating</th>
-                <th className="px-5 py-3">Status</th>
-                <th className="px-5 py-3 text-right">Actions</th>
+                <th className="px-5 py-3">{t("storesPage.store")}</th>
+                <th className="px-5 py-3">{t("storesPage.vendor")}</th>
+                <th className="px-5 py-3">{t("storesPage.products")}</th>
+                <th className="px-5 py-3">{t("storesPage.orders")}</th>
+                <th className="px-5 py-3">{t("storesPage.rating")}</th>
+                <th className="px-5 py-3">{t("common.status")}</th>
+                <th className="px-5 py-3 text-right">{t("common.actions")}</th>
               </tr>
             </thead>
 
@@ -121,12 +128,12 @@ export default function StoresPage() {
                   <td className="px-5 py-4">
                     <span
                       className={
-                        store.status === "Open"
+                        store.status === "open"
                           ? "ms-badge-success"
                           : "ms-badge-warning"
                       }
                     >
-                      {store.status}
+                      {t(`storesPage.${store.status}`)}
                     </span>
                   </td>
 
@@ -135,7 +142,7 @@ export default function StoresPage() {
                       <Link
                         to={`/admin/stores/${store.id}`}
                         className="ms-btn-soft h-9 w-9 px-0"
-                        title="View store"
+                        title={t("storesPage.viewStore")}
                       >
                         <Eye size={15} />
                       </Link>
@@ -143,13 +150,13 @@ export default function StoresPage() {
                       <Link
                         to={`/admin/stores/${store.id}/edit`}
                         className="ms-btn-soft h-9 w-9 px-0"
-                        title="Edit store"
+                        title={t("storesPage.editStore")}
                       >
                         <Edit size={15} />
                       </Link>
 
                       <button className="ms-btn-soft h-9 w-9 px-0">
-                        {store.status === "Open" ? (
+                        {store.status === "open" ? (
                           <ToggleRight size={16} />
                         ) : (
                           <ToggleLeft size={16} />
@@ -157,7 +164,7 @@ export default function StoresPage() {
                       </button>
 
                       <Link to={`/admin/vendors/${store.id}`} className="ms-btn-soft">
-                        Vendor
+                        {t("storesPage.vendor")}
                       </Link>
                     </div>
                   </td>

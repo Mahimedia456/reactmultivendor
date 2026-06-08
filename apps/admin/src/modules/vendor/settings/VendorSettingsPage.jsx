@@ -1,13 +1,29 @@
 import { KeyRound, Mail, Save, ShieldCheck, Store, UserRound } from "lucide-react";
+import { useTranslation } from "react-i18next";
+
 import VendorPageHeader from "../components/VendorPageHeader";
 
 export default function VendorSettingsPage() {
+  const { t } = useTranslation();
+
+  const preferences = [
+    ["vendorPanel.settings.orderNotifications", "vendorPanel.settings.orderNotificationsDesc"],
+    ["vendorPanel.settings.lowStockAlerts", "vendorPanel.settings.lowStockAlertsDesc"],
+    ["vendorPanel.settings.payoutUpdates", "vendorPanel.settings.payoutUpdatesDesc"],
+    ["vendorPanel.settings.reviewAlerts", "vendorPanel.settings.reviewAlertsDesc"],
+  ];
+
   return (
     <div className="space-y-6">
       <VendorPageHeader
-        title="Vendor Settings"
-        description="Manage vendor account, password, notification preferences and store controls."
-        action={<button className="ms-btn-primary inline-flex items-center gap-2"><Save size={17} /> Save Settings</button>}
+        title={t("vendorPanel.settings.title")}
+        description={t("vendorPanel.settings.description")}
+        action={
+          <button className="ms-btn-primary inline-flex items-center gap-2">
+            <Save size={17} />
+            {t("vendorPanel.settings.saveSettings")}
+          </button>
+        }
       />
 
       <div className="grid gap-6 xl:grid-cols-[360px_1fr]">
@@ -18,10 +34,11 @@ export default function VendorSettingsPage() {
             </div>
 
             <h2 className="mt-4 text-xl font-black text-slate-950 dark:text-white">
-              Vendor Account
+              {t("vendorPanel.settings.vendorAccount")}
             </h2>
+
             <p className="mt-1 text-sm text-slate-500">
-              Update your account identity and access information.
+              {t("vendorPanel.settings.accountDescription")}
             </p>
 
             <div className="mt-5 space-y-3 text-sm">
@@ -31,7 +48,7 @@ export default function VendorSettingsPage() {
               </p>
               <p className="flex items-center gap-2">
                 <ShieldCheck size={16} />
-                Verified Vendor
+                {t("vendorPanel.settings.verifiedVendor")}
               </p>
               <p className="flex items-center gap-2">
                 <Store size={16} />
@@ -42,18 +59,30 @@ export default function VendorSettingsPage() {
 
           <div className="rounded-2xl border border-panel-line bg-white p-5 shadow-sm dark:border-panel-darkLine dark:bg-panel-darkCard">
             <h3 className="text-lg font-black text-slate-950 dark:text-white">
-              Security
+              {t("vendorPanel.settings.security")}
             </h3>
 
             <div className="mt-4 space-y-4">
-              <input className="ms-input" type="password" placeholder="Current Password" />
-              <input className="ms-input" type="password" placeholder="New Password" />
-              <input className="ms-input" type="password" placeholder="Confirm Password" />
+              <input
+                className="ms-input"
+                type="password"
+                placeholder={t("vendorPanel.settings.currentPassword")}
+              />
+              <input
+                className="ms-input"
+                type="password"
+                placeholder={t("vendorPanel.settings.newPassword")}
+              />
+              <input
+                className="ms-input"
+                type="password"
+                placeholder={t("vendorPanel.settings.confirmPassword")}
+              />
             </div>
 
             <button className="ms-btn-soft mt-5 inline-flex items-center gap-2">
               <KeyRound size={17} />
-              Update Password
+              {t("vendorPanel.settings.updatePassword")}
             </button>
           </div>
         </div>
@@ -61,30 +90,38 @@ export default function VendorSettingsPage() {
         <div className="space-y-6">
           <div className="rounded-2xl border border-panel-line bg-white p-6 shadow-sm dark:border-panel-darkLine dark:bg-panel-darkCard">
             <h3 className="text-lg font-black text-slate-950 dark:text-white">
-              Account Information
+              {t("vendorPanel.settings.accountInformation")}
             </h3>
 
             <div className="mt-5 grid gap-5 md:grid-cols-2">
               <div>
-                <label className="mb-2 block text-sm font-black">Full Name</label>
+                <label className="mb-2 block text-sm font-black">
+                  {t("vendorPanel.settings.fullName")}
+                </label>
                 <input className="ms-input" defaultValue="Aamir Ali" />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-black">Email</label>
+                <label className="mb-2 block text-sm font-black">
+                  {t("vendorPanel.settings.email")}
+                </label>
                 <input className="ms-input" defaultValue="vendor@mahistore.com" />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-black">Phone</label>
+                <label className="mb-2 block text-sm font-black">
+                  {t("vendorPanel.settings.phone")}
+                </label>
                 <input className="ms-input" defaultValue="+92 300 0000000" />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-black">Language</label>
+                <label className="mb-2 block text-sm font-black">
+                  {t("vendorPanel.settings.language")}
+                </label>
                 <select className="ms-input" defaultValue="en">
-                  <option value="en">English</option>
-                  <option value="ur">Urdu</option>
+                  <option value="en">{t("vendorPanel.settings.english")}</option>
+                  <option value="ur">{t("vendorPanel.settings.urdu")}</option>
                 </select>
               </div>
             </div>
@@ -92,23 +129,22 @@ export default function VendorSettingsPage() {
 
           <div className="rounded-2xl border border-panel-line bg-white p-6 shadow-sm dark:border-panel-darkLine dark:bg-panel-darkCard">
             <h3 className="text-lg font-black text-slate-950 dark:text-white">
-              Notification Preferences
+              {t("vendorPanel.settings.notificationPreferences")}
             </h3>
 
             <div className="mt-5 space-y-4">
-              {[
-                ["Order notifications", "Receive alerts when new orders arrive."],
-                ["Low stock alerts", "Get notified when products reach low-stock threshold."],
-                ["Payout updates", "Receive updates when payout status changes."],
-                ["Review alerts", "Receive alerts for new product reviews."],
-              ].map(([title, desc]) => (
+              {preferences.map(([titleKey, descKey]) => (
                 <label
-                  key={title}
+                  key={titleKey}
                   className="flex cursor-pointer items-center justify-between rounded-xl bg-slate-50 p-4 dark:bg-white/5"
                 >
                   <span>
-                    <span className="block text-sm font-black">{title}</span>
-                    <span className="block text-xs text-slate-500">{desc}</span>
+                    <span className="block text-sm font-black">
+                      {t(titleKey)}
+                    </span>
+                    <span className="block text-xs text-slate-500">
+                      {t(descKey)}
+                    </span>
                   </span>
 
                   <input type="checkbox" defaultChecked className="h-5 w-5" />
@@ -118,10 +154,12 @@ export default function VendorSettingsPage() {
           </div>
 
           <div className="flex justify-end gap-3">
-            <button className="ms-btn-soft">Cancel</button>
+            <button className="ms-btn-soft">
+              {t("vendorPanel.common.cancel")}
+            </button>
             <button className="ms-btn-primary inline-flex items-center gap-2">
               <Save size={17} />
-              Save All Settings
+              {t("vendorPanel.settings.saveAllSettings")}
             </button>
           </div>
         </div>

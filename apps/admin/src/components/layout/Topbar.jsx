@@ -1,5 +1,6 @@
 import {
   Bell,
+  Languages,
   LogOut,
   Menu,
   Moon,
@@ -9,52 +10,75 @@ import {
   WalletCards,
 } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useTheme } from "../../context/ThemeContext";
 import { logoutUser } from "../../services/auth.service";
 
-function getPageTitle(pathname) {
-  const map = {
-    "/admin/dashboard": "Dashboard",
-    "/admin/vendors": "Vendors",
-    "/admin/vendor-requests": "Vendor Requests",
-    "/admin/stores": "Stores",
-    "/admin/products": "Products",
-    "/admin/categories": "Categories",
-    "/admin/brands": "Brands",
-    "/admin/attributes": "Attributes",
-    "/admin/reviews": "Reviews",
-    "/admin/inventory": "Inventory",
-    "/admin/orders": "Orders",
-    "/admin/transactions": "Transactions",
-    "/admin/shipping": "Shipping",
-    "/admin/commissions": "Commissions",
-    "/admin/vendor-wallets": "Vendor Wallets",
-    "/admin/payouts": "Payouts",
-    "/admin/customers": "Customers",
-    "/admin/coupons": "Coupons",
-    "/admin/banners": "Banners",
-    "/admin/flash-sales": "Flash Sales",
-    "/admin/announcements": "Announcements",
-    "/admin/notifications": "Notifications",
-    "/admin/email-campaigns": "Email Campaigns",
-    "/admin/reports/sales": "Sales Reports",
-    "/admin/reports/vendors": "Vendor Reports",
-    "/admin/reports/products": "Product Reports",
-    "/admin/reports/customers": "Customer Reports",
-  };
+const pageTitleMap = {
+  "/admin/dashboard": "nav.dashboard",
+  "/admin/vendors": "nav.vendors",
+  "/admin/vendor-requests": "nav.vendorRequests",
+  "/admin/stores": "nav.stores",
+  "/admin/products": "nav.products",
+  "/admin/categories": "nav.categories",
+  "/admin/brands": "nav.brands",
+  "/admin/attributes": "nav.attributes",
+  "/admin/reviews": "nav.reviews",
+  "/admin/inventory": "nav.inventory",
+  "/admin/orders": "nav.orders",
+  "/admin/transactions": "nav.transactions",
+  "/admin/shipping": "nav.shipping",
+  "/admin/commissions": "nav.commissions",
+  "/admin/vendor-wallets": "nav.vendorWallets",
+  "/admin/payouts": "nav.payouts",
+  "/admin/customers": "nav.customers",
+  "/admin/coupons": "nav.coupons",
+  "/admin/banners": "nav.banners",
+  "/admin/flash-sales": "nav.flashSales",
+  "/admin/announcements": "nav.announcements",
+  "/admin/notifications": "nav.notifications",
+  "/admin/email-campaigns": "nav.emailCampaigns",
+  "/admin/reports/sales": "nav.salesReports",
+  "/admin/reports/vendors": "nav.vendorReports",
+  "/admin/reports/products": "nav.productReports",
+  "/admin/reports/customers": "nav.customerReports",
 
-  return map[pathname] || "Mahi Store";
-}
+  "/vendor/dashboard": "nav.dashboard",
+  "/vendor/store": "nav.storeProfile",
+  "/vendor/products": "nav.products",
+  "/vendor/categories": "nav.categories",
+  "/vendor/brands": "nav.brands",
+  "/vendor/attributes": "nav.attributes",
+  "/vendor/inventory": "nav.inventory",
+  "/vendor/orders": "nav.orders",
+  "/vendor/returns": "nav.returns",
+  "/vendor/reviews": "nav.reviews",
+  "/vendor/customers": "nav.customers",
+  "/vendor/earnings": "nav.earnings",
+  "/vendor/wallet": "nav.wallet",
+  "/vendor/transactions": "nav.transactions",
+  "/vendor/payouts": "nav.payouts",
+  "/vendor/shipping": "nav.shipping",
+  "/vendor/coupons": "nav.coupons",
+  "/vendor/notifications": "nav.notifications",
+  "/vendor/settings": "nav.settings",
+};
 
 export default function Topbar({ role = "admin", user }) {
   const { isDark, toggleTheme } = useTheme();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
-  const pageTitle = getPageTitle(location.pathname);
+
+  const pageTitle = t(pageTitleMap[location.pathname] || "brand.name");
 
   function handleLogout() {
     logoutUser();
     navigate("/login");
+  }
+
+  function toggleLanguage() {
+    i18n.changeLanguage(i18n.language === "de" ? "en" : "de");
   }
 
   return (
@@ -67,9 +91,9 @@ export default function Topbar({ role = "admin", user }) {
 
           <div>
             <div className="flex items-center gap-2 text-xs font-bold text-slate-500 dark:text-slate-400">
-              <span>Home</span>
+              <span>{t("common.home")}</span>
               <span>/</span>
-              <span>{role === "vendor" ? "Vendor" : "Admin"}</span>
+              <span>{role === "vendor" ? t("common.vendor") : t("common.admin")}</span>
             </div>
             <h2 className="mt-1 truncate text-xl font-black tracking-tight text-slate-950 dark:text-white">
               {pageTitle}
@@ -81,17 +105,22 @@ export default function Topbar({ role = "admin", user }) {
           <Search size={17} className="text-slate-400" />
           <input
             className="w-full bg-transparent text-sm font-medium outline-none placeholder:text-slate-400"
-            placeholder="Search orders, products, vendors..."
+            placeholder={t("common.searchPlaceholder")}
           />
           <span className="rounded border border-slate-200 bg-slate-50 px-2 py-0.5 text-[11px] font-bold text-slate-400 dark:border-panel-darkLine dark:bg-panel-dark">
-            Ctrl K
+            {t("common.ctrlK")}
           </span>
         </div>
 
         <div className="flex items-center gap-2">
           <button className="ms-btn-soft hidden gap-2 xl:flex">
             <WalletCards size={17} />
-            Payouts
+            {t("common.payouts")}
+          </button>
+
+          <button onClick={toggleLanguage} className="ms-btn-soft h-10 gap-2 px-3">
+            <Languages size={17} />
+            <span className="text-xs font-black uppercase">{i18n.language === "de" ? "EN" : "DE"}</span>
           </button>
 
           <button onClick={toggleTheme} className="ms-btn-soft h-10 w-10 px-0">
@@ -110,7 +139,7 @@ export default function Topbar({ role = "admin", user }) {
             <div>
               <p className="text-sm font-black leading-4">{user?.name || "Aamir"}</p>
               <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
-                {role === "vendor" ? "Vendor" : "Super Admin"}
+                {role === "vendor" ? t("common.vendor") : t("common.superAdmin")}
               </p>
             </div>
           </div>

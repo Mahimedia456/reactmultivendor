@@ -1,51 +1,58 @@
 import { Link } from "react-router-dom";
 import { Eye, Plus, Search, Truck, Warehouse } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const zones = [
-  ["Karachi", "Pakistan", "Rs 250", "Active"],
-  ["Lahore", "Pakistan", "Rs 300", "Active"],
-  ["Islamabad", "Pakistan", "Rs 350", "Active"],
+  ["Karachi", "Pakistan", "Rs 250", "active"],
+  ["Lahore", "Pakistan", "Rs 300", "active"],
+  ["Islamabad", "Pakistan", "Rs 350", "active"],
 ];
 
 const methods = [
-  ["Standard Delivery", "2-4 business days", "Rs 250", "Active"],
-  ["Express Delivery", "1-2 business days", "Rs 500", "Active"],
-  ["Courier Pickup", "Vendor managed", "Custom", "Inactive"],
+  ["shippingPage.standardDelivery", "shippingPage.businessDays24", "Rs 250", "active"],
+  ["shippingPage.expressDelivery", "shippingPage.businessDays12", "Rs 500", "active"],
+  ["shippingPage.courierPickup", "shippingPage.vendorManaged", "shippingPage.custom", "inactive"],
 ];
 
 export default function ShippingPage() {
+  const { t } = useTranslation();
+
+  const stats = [
+    ["shippingPage.shippingZones", "12"],
+    ["shippingPage.activeMethods", "8"],
+    ["shippingPage.courierPartners", "4"],
+    ["shippingPage.pendingShipments", "142"],
+  ];
+
   return (
     <div className="space-y-5">
       <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
         <div>
-          <p className="text-sm font-bold text-slate-500">Sales / Shipping</p>
-          <h1 className="mt-1 text-2xl font-black">Shipping</h1>
+          <p className="text-sm font-bold text-slate-500">
+            {t("shippingPage.breadcrumb")}
+          </p>
+          <h1 className="mt-1 text-2xl font-black">{t("shippingPage.title")}</h1>
           <p className="mt-1 text-sm font-semibold text-slate-500">
-            Manage shipping zones, delivery methods, rates and courier rules.
+            {t("shippingPage.description")}
           </p>
         </div>
 
         <div className="flex gap-2">
           <Link to="/admin/couriers" className="ms-btn-soft">
-            Courier Partners
+            {t("shippingPage.courierPartners")}
           </Link>
 
           <Link to="/admin/shipping/create" className="ms-btn-primary gap-2">
             <Plus size={17} />
-            Add Shipping Rule
+            {t("shippingPage.addShippingRule")}
           </Link>
         </div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-4">
-        {[
-          ["Shipping Zones", "12"],
-          ["Active Methods", "8"],
-          ["Courier Partners", "4"],
-          ["Pending Shipments", "142"],
-        ].map(([label, value]) => (
-          <div key={label} className="ms-card p-5">
-            <p className="text-sm font-bold text-slate-500">{label}</p>
+        {stats.map(([labelKey, value]) => (
+          <div key={labelKey} className="ms-card p-5">
+            <p className="text-sm font-bold text-slate-500">{t(labelKey)}</p>
             <h3 className="mt-2 text-2xl font-black">{value}</h3>
           </div>
         ))}
@@ -55,14 +62,14 @@ export default function ShippingPage() {
         <div className="ms-card">
           <div className="flex items-center justify-between border-b border-panel-line p-4 dark:border-panel-darkLine">
             <div>
-              <h3 className="text-lg font-black">Shipping Zones</h3>
+              <h3 className="text-lg font-black">{t("shippingPage.shippingZones")}</h3>
               <p className="text-sm font-semibold text-slate-500">
-                City/country based delivery rates.
+                {t("shippingPage.cityCountryRates")}
               </p>
             </div>
             <Link to="/admin/shipping/create" className="ms-btn-soft gap-2">
               <Plus size={16} />
-              Zone
+              {t("shippingPage.zoneLabel")}
             </Link>
           </div>
 
@@ -71,7 +78,7 @@ export default function ShippingPage() {
               <Search size={17} className="text-slate-400" />
               <input
                 className="w-full bg-transparent text-sm font-medium outline-none"
-                placeholder="Search zones..."
+                placeholder={t("shippingPage.searchZones")}
               />
             </div>
 
@@ -87,30 +94,19 @@ export default function ShippingPage() {
                     </div>
                     <div>
                       <p className="font-black">{city}</p>
-                      <p className="text-sm font-semibold text-slate-500">
-                        {country}
-                      </p>
+                      <p className="text-sm font-semibold text-slate-500">{country}</p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-3">
                     <div className="text-right">
                       <p className="font-black">{rate}</p>
-                      <span
-                        className={
-                          status === "Active"
-                            ? "ms-badge-success"
-                            : "ms-badge-warning"
-                        }
-                      >
-                        {status}
+                      <span className={status === "active" ? "ms-badge-success" : "ms-badge-warning"}>
+                        {t(`status.${status}`)}
                       </span>
                     </div>
 
-                    <Link
-                      to={`/admin/shipping/${index + 1}`}
-                      className="ms-btn-soft h-9 w-9 px-0"
-                    >
+                    <Link to={`/admin/shipping/${index + 1}`} className="ms-btn-soft h-9 w-9 px-0">
                       <Eye size={15} />
                     </Link>
                   </div>
@@ -123,22 +119,22 @@ export default function ShippingPage() {
         <div className="ms-card">
           <div className="flex items-center justify-between border-b border-panel-line p-4 dark:border-panel-darkLine">
             <div>
-              <h3 className="text-lg font-black">Delivery Methods</h3>
+              <h3 className="text-lg font-black">{t("shippingPage.deliveryMethods")}</h3>
               <p className="text-sm font-semibold text-slate-500">
-                Standard, express and vendor delivery.
+                {t("shippingPage.deliveryMethodsText")}
               </p>
             </div>
             <Link to="/admin/shipping/create" className="ms-btn-soft gap-2">
               <Plus size={16} />
-              Method
+              {t("shippingPage.method")}
             </Link>
           </div>
 
           <div className="p-4">
             <div className="space-y-3">
-              {methods.map(([name, eta, rate, status], index) => (
+              {methods.map(([nameKey, etaKey, rateKey, status], index) => (
                 <div
-                  key={name}
+                  key={nameKey}
                   className="flex items-center justify-between rounded-lg border border-panel-line p-4 dark:border-panel-darkLine"
                 >
                   <div className="flex items-center gap-3">
@@ -146,29 +142,22 @@ export default function ShippingPage() {
                       <Truck size={18} />
                     </div>
                     <div>
-                      <p className="font-black">{name}</p>
-                      <p className="text-sm font-semibold text-slate-500">{eta}</p>
+                      <p className="font-black">{t(nameKey)}</p>
+                      <p className="text-sm font-semibold text-slate-500">{t(etaKey)}</p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-3">
                     <div className="text-right">
-                      <p className="font-black">{rate}</p>
-                      <span
-                        className={
-                          status === "Active"
-                            ? "ms-badge-success"
-                            : "ms-badge-warning"
-                        }
-                      >
-                        {status}
+                      <p className="font-black">
+                        {rateKey.includes(".") ? t(rateKey) : rateKey}
+                      </p>
+                      <span className={status === "active" ? "ms-badge-success" : "ms-badge-warning"}>
+                        {t(`status.${status}`)}
                       </span>
                     </div>
 
-                    <Link
-                      to={`/admin/shipping/${index + 10}`}
-                      className="ms-btn-soft h-9 w-9 px-0"
-                    >
+                    <Link to={`/admin/shipping/${index + 10}`} className="ms-btn-soft h-9 w-9 px-0">
                       <Eye size={15} />
                     </Link>
                   </div>

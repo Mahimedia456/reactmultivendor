@@ -1,16 +1,20 @@
 import { ImagePlus, Trash2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
+
 import VendorPageHeader from "../components/VendorPageHeader";
 
 export default function VendorProductImagesPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="space-y-6">
       <VendorPageHeader
-        title="Product Images"
-        description="Upload and manage product gallery images."
+        title={t("vendorPanel.products.imagesTitle")}
+        description={t("vendorPanel.products.imagesDescription")}
         action={
           <button className="ms-btn-primary inline-flex items-center gap-2">
             <ImagePlus size={17} />
-            Upload Images
+            {t("vendorPanel.products.uploadImages")}
           </button>
         }
       />
@@ -26,7 +30,9 @@ export default function VendorProductImagesPage() {
             </div>
 
             <div className="mt-4 flex items-center justify-between">
-              <p className="font-black">Image {item}</p>
+              <p className="font-black">
+                {t("vendorPanel.products.imageLabel", { item })}
+              </p>
               <button className="ms-btn-soft h-9 w-9 px-0 text-red-500">
                 <Trash2 size={16} />
               </button>

@@ -1,4 +1,5 @@
 import { Download, Store, WalletCards } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const vendors = [
   ["Aamir Fragrances", "420", "Rs 640,000", "Rs 64,000"],
@@ -7,30 +8,40 @@ const vendors = [
 ];
 
 export default function VendorReportsPage() {
+  const { t } = useTranslation();
+
+  const stats = [
+    ["reportsPage.activeVendors", "248"],
+    ["reportsPage.revenue", "Rs 12.4M"],
+    ["reportsPage.commission", "Rs 1.8M"],
+    ["reportsPage.payouts", "Rs 8.2M"],
+  ];
+
   return (
     <div className="space-y-5">
       <div className="flex justify-between">
         <div>
-          <p className="text-sm font-bold text-slate-500">Reports / Vendors</p>
-          <h1 className="mt-1 text-2xl font-black">Vendor Reports</h1>
+          <p className="text-sm font-bold text-slate-500">
+            {t("reportsPage.vendorsBreadcrumb")}
+          </p>
+          <h1 className="mt-1 text-2xl font-black">
+            {t("reportsPage.vendorReports")}
+          </h1>
         </div>
 
         <button className="ms-btn-primary gap-2">
           <Download size={17} />
-          Export
+          {t("reportsPage.export")}
         </button>
       </div>
 
       <div className="grid gap-4 md:grid-cols-4">
-        {[
-          ["Active Vendors", "248"],
-          ["Revenue", "Rs 12.4M"],
-          ["Commission", "Rs 1.8M"],
-          ["Payouts", "Rs 8.2M"],
-        ].map(([label, value]) => (
-          <div key={label} className="ms-card p-5">
+        {stats.map(([labelKey, value]) => (
+          <div key={labelKey} className="ms-card p-5">
             <Store size={20} className="text-brand-700" />
-            <p className="mt-4 text-sm font-bold text-slate-500">{label}</p>
+            <p className="mt-4 text-sm font-bold text-slate-500">
+              {t(labelKey)}
+            </p>
             <h3 className="mt-1 text-2xl font-black">{value}</h3>
           </div>
         ))}
@@ -40,10 +51,10 @@ export default function VendorReportsPage() {
         <table className="w-full text-left">
           <thead className="ms-table-head">
             <tr>
-              <th className="px-5 py-3">Vendor</th>
-              <th className="px-5 py-3">Orders</th>
-              <th className="px-5 py-3">Revenue</th>
-              <th className="px-5 py-3">Commission</th>
+              <th className="px-5 py-3">{t("reportsPage.vendor")}</th>
+              <th className="px-5 py-3">{t("reportsPage.orders")}</th>
+              <th className="px-5 py-3">{t("reportsPage.revenue")}</th>
+              <th className="px-5 py-3">{t("reportsPage.commission")}</th>
             </tr>
           </thead>
 
@@ -61,8 +72,10 @@ export default function VendorReportsPage() {
       </div>
 
       <div className="ms-card p-5">
-        <h3 className="text-lg font-black">Vendor Earnings Distribution</h3>
-        <div className="mt-5 h-72 rounded-card bg-slate-50 dark:bg-white/5 flex items-center justify-center">
+        <h3 className="text-lg font-black">
+          {t("reportsPage.vendorEarningsDistribution")}
+        </h3>
+        <div className="mt-5 flex h-72 items-center justify-center rounded-card bg-slate-50 dark:bg-white/5">
           <WalletCards size={60} className="text-brand-500" />
         </div>
       </div>

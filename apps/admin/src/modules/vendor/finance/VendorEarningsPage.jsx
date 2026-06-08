@@ -1,46 +1,52 @@
 import { BarChart3, CalendarDays, DollarSign, Download, WalletCards } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import VendorPageHeader from "../components/VendorPageHeader";
 import VendorStatCard from "../components/VendorStatCard";
 import VendorStatusBadge from "../components/VendorStatusBadge";
 import VendorTableCard from "../components/VendorTableCard";
 
 const earnings = [
-  { order: "#ORD-10021", gross: "$240", commission: "$24", net: "$216", status: "Paid", date: "2026-06-04" },
-  { order: "#ORD-10022", gross: "$80", commission: "$8", net: "$72", status: "Pending", date: "2026-06-04" },
-  { order: "#ORD-10023", gross: "$120", commission: "$12", net: "$108", status: "Processing", date: "2026-06-03" },
+  { order: "#ORD-10021", gross: "$240", commission: "$24", net: "$216", status: "paid", date: "2026-06-04" },
+  { order: "#ORD-10022", gross: "$80", commission: "$8", net: "$72", status: "pending", date: "2026-06-04" },
+  { order: "#ORD-10023", gross: "$120", commission: "$12", net: "$108", status: "processing", date: "2026-06-03" },
 ];
 
 export default function VendorEarningsPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="space-y-6">
       <VendorPageHeader
-        title="Earnings"
-        description="Track gross sales, commission deductions and net vendor earnings."
+        title={t("vendorPanel.finance.earnings")}
+        description={t("vendorPanel.finance.earningsDescription")}
         action={
           <button className="ms-btn-primary inline-flex items-center gap-2">
             <Download size={17} />
-            Export
+            {t("vendorPanel.common.export")}
           </button>
         }
       />
 
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-        <VendorStatCard title="Gross Sales" value="$18,420" icon={DollarSign} tone="green" />
-        <VendorStatCard title="Commission" value="$1,842" icon={BarChart3} tone="red" />
-        <VendorStatCard title="Net Earnings" value="$16,578" icon={WalletCards} />
-        <VendorStatCard title="This Month" value="$4,250" icon={CalendarDays} tone="blue" />
+        <VendorStatCard title={t("vendorPanel.finance.grossSales")} value="$18,420" icon={DollarSign} tone="green" />
+        <VendorStatCard title={t("vendorPanel.finance.commission")} value="$1,842" icon={BarChart3} tone="red" />
+        <VendorStatCard title={t("vendorPanel.finance.netEarnings")} value="$16,578" icon={WalletCards} />
+        <VendorStatCard title={t("vendorPanel.finance.thisMonth")} value="$4,250" icon={CalendarDays} tone="blue" />
       </div>
 
-      <VendorTableCard title="Earning Breakdown" description="Order-wise earning calculation">
+      <VendorTableCard
+        title={t("vendorPanel.finance.earningBreakdown")}
+        description={t("vendorPanel.finance.earningBreakdownDescription")}
+      >
         <table className="w-full min-w-[850px] text-left">
           <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500 dark:bg-white/5">
             <tr>
-              <th className="px-5 py-4">Order</th>
-              <th className="px-5 py-4">Gross Amount</th>
-              <th className="px-5 py-4">Commission</th>
-              <th className="px-5 py-4">Net Earning</th>
-              <th className="px-5 py-4">Status</th>
-              <th className="px-5 py-4">Date</th>
+              <th className="px-5 py-4">{t("vendorPanel.customers.order")}</th>
+              <th className="px-5 py-4">{t("vendorPanel.finance.grossAmount")}</th>
+              <th className="px-5 py-4">{t("vendorPanel.finance.commission")}</th>
+              <th className="px-5 py-4">{t("vendorPanel.finance.netEarning")}</th>
+              <th className="px-5 py-4">{t("vendorPanel.common.status")}</th>
+              <th className="px-5 py-4">{t("vendorPanel.common.date")}</th>
             </tr>
           </thead>
 

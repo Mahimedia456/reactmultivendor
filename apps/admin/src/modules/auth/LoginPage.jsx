@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, Eye, EyeOff, Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { loginUser } from "../../services/auth.service";
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({
@@ -28,7 +30,7 @@ export default function LoginPage() {
         navigate("/admin/dashboard", { replace: true });
       }
     } catch {
-      setError("Invalid email or password.");
+      setError(t("auth.invalidCredentials"));
     } finally {
       setLoading(false);
     }
@@ -43,7 +45,9 @@ export default function LoginPage() {
       ) : null}
 
       <div>
-        <label className="mb-2 block text-sm font-bold">Email address</label>
+        <label className="mb-2 block text-sm font-bold">
+          {t("auth.emailAddress")}
+        </label>
         <input
           className="ms-input"
           type="email"
@@ -53,18 +57,20 @@ export default function LoginPage() {
           required
         />
         <p className="mt-2 text-xs font-semibold text-slate-500 dark:text-slate-400">
-          Vendor test: vendor@mahistore.com
+          {t("auth.vendorTest")}
         </p>
       </div>
 
       <div>
         <div className="mb-2 flex items-center justify-between">
-          <label className="block text-sm font-bold">Password</label>
+          <label className="block text-sm font-bold">
+            {t("auth.password")}
+          </label>
           <Link
             to="/forgot-password"
             className="text-sm font-bold text-brand-700 hover:text-brand-800 dark:text-brand-300"
           >
-            Forgot password?
+            {t("auth.forgotPassword")}
           </Link>
         </div>
 
@@ -74,7 +80,7 @@ export default function LoginPage() {
             type={showPassword ? "text" : "password"}
             value={form.password}
             onChange={(e) => setForm({ ...form, password: e.target.value })}
-            placeholder="Enter password"
+            placeholder={t("auth.enterPassword")}
             required
           />
 
@@ -90,7 +96,7 @@ export default function LoginPage() {
 
       <button disabled={loading} className="ms-btn-primary w-full gap-2">
         {loading ? <Loader2 className="animate-spin" size={17} /> : null}
-        Sign in
+        {t("auth.signIn")}
         {!loading ? <ArrowRight size={17} /> : null}
       </button>
     </form>

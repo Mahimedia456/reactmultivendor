@@ -6,33 +6,43 @@ import {
   ShoppingBag,
   Users,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function DashboardPage() {
+  const { t } = useTranslation();
+
   const cards = [
     {
-      label: "Total Revenue",
+      label: t("dashboard.totalRevenue"),
       value: "Rs 8.4M",
       icon: BadgeDollarSign,
       change: "+18.4%",
     },
     {
-      label: "Total Orders",
+      label: t("dashboard.totalOrders"),
       value: "24,820",
       icon: ShoppingBag,
       change: "+12.7%",
     },
     {
-      label: "Active Vendors",
+      label: t("dashboard.activeVendors"),
       value: "126",
       icon: Building2,
       change: "+6.2%",
     },
     {
-      label: "Customers",
+      label: t("dashboard.customers"),
       value: "18,430",
       icon: Users,
       change: "+22.1%",
     },
+  ];
+
+  const recentOrders = [
+    ["MS-1001", "Rs 12,400", "status.processing"],
+    ["MS-1002", "Rs 8,200", "status.paid"],
+    ["MS-1003", "Rs 18,900", "status.shipped"],
+    ["MS-1004", "Rs 4,500", "status.pending"],
   ];
 
   return (
@@ -43,18 +53,18 @@ export default function DashboardPage() {
         <div className="relative z-10 flex flex-col justify-between gap-6 xl:flex-row xl:items-end">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.24em] text-brand-200">
-              Marketplace Performance
+              {t("dashboard.marketplacePerformance")}
             </p>
             <h1 className="mt-4 max-w-3xl text-4xl font-black tracking-tight">
-              Manage sales, vendors, orders and payouts from one enterprise dashboard.
+              {t("dashboard.heroTitle")}
             </h1>
             <p className="mt-4 max-w-2xl text-sm font-medium leading-6 text-brand-100">
-              This dashboard will connect to Supabase data after API integration.
+              {t("dashboard.heroText")}
             </p>
           </div>
 
           <button className="inline-flex h-12 items-center justify-center gap-2 rounded-2xl bg-white px-5 text-sm font-black text-brand-800">
-            View Reports
+            {t("dashboard.viewReports")}
             <ArrowUpRight size={18} />
           </button>
         </div>
@@ -86,10 +96,10 @@ export default function DashboardPage() {
         <div className="ms-card p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="ms-section-title">Revenue</p>
-              <h3 className="mt-2 text-xl font-black">Sales Analytics</h3>
+              <p className="ms-section-title">{t("dashboard.revenue")}</p>
+              <h3 className="mt-2 text-xl font-black">{t("dashboard.salesAnalytics")}</h3>
             </div>
-            <button className="ms-btn-soft">Monthly</button>
+            <button className="ms-btn-soft">{t("dashboard.monthly")}</button>
           </div>
 
           <div className="mt-6 flex h-80 items-end gap-3 rounded-3xl bg-panel-page p-5 dark:bg-[#0a1020]">
@@ -106,17 +116,12 @@ export default function DashboardPage() {
 
         <div className="ms-card p-6">
           <div>
-            <p className="ms-section-title">Operations</p>
-            <h3 className="mt-2 text-xl font-black">Recent Orders</h3>
+            <p className="ms-section-title">{t("dashboard.operations")}</p>
+            <h3 className="mt-2 text-xl font-black">{t("dashboard.recentOrders")}</h3>
           </div>
 
           <div className="mt-6 space-y-3">
-            {[
-              ["MS-1001", "Rs 12,400", "Processing"],
-              ["MS-1002", "Rs 8,200", "Paid"],
-              ["MS-1003", "Rs 18,900", "Shipped"],
-              ["MS-1004", "Rs 4,500", "Pending"],
-            ].map(([order, amount, status]) => (
+            {recentOrders.map(([order, amount, statusKey]) => (
               <div
                 key={order}
                 className="flex items-center justify-between rounded-2xl border border-panel-line bg-panel-page p-4 dark:border-panel-darkLine dark:bg-[#0a1020]"
@@ -124,7 +129,7 @@ export default function DashboardPage() {
                 <div>
                   <p className="font-black">{order}</p>
                   <p className="mt-1 text-xs font-semibold text-slate-500">
-                    {status}
+                    {t(statusKey)}
                   </p>
                 </div>
                 <p className="font-black">{amount}</p>

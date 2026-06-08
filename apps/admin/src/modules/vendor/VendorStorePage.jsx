@@ -5,16 +5,23 @@ import {
   Phone,
   Store,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 import VendorPageHeader from "./components/VendorPageHeader";
 
 export default function VendorStorePage() {
+  const { t } = useTranslation();
+
   return (
     <div className="space-y-6">
       <VendorPageHeader
-        title="Store Profile"
-        description="Manage your vendor store information."
-        action={<button className="ms-btn-primary">Save Changes</button>}
+        title={t("vendorPanel.storeProfile.title")}
+        description={t("vendorPanel.storeProfile.description")}
+        action={
+          <button className="ms-btn-primary">
+            {t("vendorPanel.storeProfile.saveChanges")}
+          </button>
+        }
       />
 
       <div className="grid gap-6 xl:grid-cols-[350px_1fr]">
@@ -54,7 +61,7 @@ export default function VendorStorePage() {
           <div className="grid gap-5 md:grid-cols-2">
             <div>
               <label className="mb-2 block text-sm font-black">
-                Store Name
+                {t("vendorPanel.storeProfile.storeName")}
               </label>
               <input
                 className="ms-input"
@@ -64,7 +71,7 @@ export default function VendorStorePage() {
 
             <div>
               <label className="mb-2 block text-sm font-black">
-                Store Email
+                {t("vendorPanel.storeProfile.storeEmail")}
               </label>
               <input
                 className="ms-input"
@@ -74,7 +81,7 @@ export default function VendorStorePage() {
 
             <div>
               <label className="mb-2 block text-sm font-black">
-                Phone
+                {t("vendorPanel.storeProfile.phone")}
               </label>
               <input
                 className="ms-input"
@@ -84,7 +91,7 @@ export default function VendorStorePage() {
 
             <div>
               <label className="mb-2 block text-sm font-black">
-                Website
+                {t("vendorPanel.storeProfile.website")}
               </label>
               <input
                 className="ms-input"
@@ -95,12 +102,12 @@ export default function VendorStorePage() {
 
           <div className="mt-5">
             <label className="mb-2 block text-sm font-black">
-              Store Description
+              {t("vendorPanel.storeProfile.storeDescription")}
             </label>
 
             <textarea
               className="ms-input min-h-40"
-              defaultValue="We provide premium quality products with fast delivery."
+              defaultValue={t("vendorPanel.storeProfile.defaultDescription")}
             />
           </div>
         </div>

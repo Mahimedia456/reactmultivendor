@@ -1,8 +1,10 @@
 import { NavLink } from "react-router-dom";
 import { ChevronLeft, Sparkles, Store } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { adminNavigation, vendorNavigation } from "../../config/navigation";
 
 export default function Sidebar({ role = "admin" }) {
+  const { t } = useTranslation();
   const navigation = role === "vendor" ? vendorNavigation : adminNavigation;
 
   return (
@@ -16,9 +18,9 @@ export default function Sidebar({ role = "admin" }) {
             </div>
 
             <div>
-              <h1 className="text-lg font-black tracking-tight">Mahi Store</h1>
+              <h1 className="text-lg font-black tracking-tight">{t("brand.name")}</h1>
               <p className="text-xs font-semibold text-slate-400">
-                {role === "vendor" ? "Vendor Panel" : "Admin Panel"}
+                {role === "vendor" ? t("common.vendorPanel") : t("common.adminPanel")}
               </p>
             </div>
           </div>
@@ -34,8 +36,8 @@ export default function Sidebar({ role = "admin" }) {
               <Sparkles size={18} />
             </div>
             <div>
-              <p className="text-sm font-black">Marketplace OS</p>
-              <p className="text-xs text-slate-400">Amazon-style operations</p>
+              <p className="text-sm font-black">{t("sidebar.marketplaceOs")}</p>
+              <p className="text-xs text-slate-400">{t("sidebar.marketplaceSub")}</p>
             </div>
           </div>
         </div>
@@ -43,9 +45,9 @@ export default function Sidebar({ role = "admin" }) {
         <nav className="mt-4 flex-1 overflow-y-auto px-4 pb-5">
           <div className="space-y-5">
             {navigation.map((section) => (
-              <div key={section.label}>
+              <div key={section.labelKey}>
                 <p className="mb-2 px-3 text-[11px] font-black uppercase tracking-[0.16em] text-slate-500">
-                  {section.label}
+                  {t(section.labelKey)}
                 </p>
 
                 <div className="space-y-1">
@@ -57,13 +59,11 @@ export default function Sidebar({ role = "admin" }) {
                         key={item.path}
                         to={item.path}
                         className={({ isActive }) =>
-                          `ms-sidebar-link ${
-                            isActive ? "ms-sidebar-link-active" : ""
-                          }`
+                          `ms-sidebar-link ${isActive ? "ms-sidebar-link-active" : ""}`
                         }
                       >
                         <Icon size={18} />
-                        <span>{item.label}</span>
+                        <span>{t(item.labelKey)}</span>
                       </NavLink>
                     );
                   })}
@@ -75,13 +75,13 @@ export default function Sidebar({ role = "admin" }) {
 
         <div className="border-t border-white/10 p-4">
           <div className="rounded-xl border border-white/10 bg-amazon-ink p-3">
-            <p className="text-sm font-black">System Status</p>
+            <p className="text-sm font-black">{t("sidebar.systemStatus")}</p>
             <div className="mt-3 flex items-center justify-between text-xs">
-              <span className="text-slate-400">API</span>
-              <span className="font-bold text-emerald-400">Online</span>
+              <span className="text-slate-400">{t("sidebar.api")}</span>
+              <span className="font-bold text-emerald-400">{t("sidebar.online")}</span>
             </div>
             <div className="mt-2 flex items-center justify-between text-xs">
-              <span className="text-slate-400">Storage</span>
+              <span className="text-slate-400">{t("sidebar.storage")}</span>
               <span className="font-bold text-brand-300">72%</span>
             </div>
           </div>

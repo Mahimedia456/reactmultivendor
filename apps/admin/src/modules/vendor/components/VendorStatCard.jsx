@@ -11,9 +11,19 @@ export default function VendorStatCard({ title, value, note, icon: Icon, tone = 
     <div className="rounded-2xl border border-panel-line bg-white p-5 shadow-sm dark:border-panel-darkLine dark:bg-panel-darkCard">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-sm font-bold text-slate-500 dark:text-slate-400">{title}</p>
-          <h3 className="mt-2 text-2xl font-black text-slate-950 dark:text-white">{value}</h3>
-          {note && <p className="mt-1 text-xs font-semibold text-slate-400">{note}</p>}
+          <p className="text-sm font-bold text-slate-500 dark:text-slate-400">
+            {title}
+          </p>
+
+          <h3 className="mt-2 text-2xl font-black text-slate-950 dark:text-white">
+            {value}
+          </h3>
+
+          {note && (
+            <p className="mt-1 text-xs font-semibold text-slate-400">
+              {note}
+            </p>
+          )}
         </div>
 
         {Icon && (

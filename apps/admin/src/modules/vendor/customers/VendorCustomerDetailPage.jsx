@@ -9,6 +9,7 @@ import {
   WalletCards,
 } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import VendorPageHeader from "../components/VendorPageHeader";
 import VendorStatCard from "../components/VendorStatCard";
@@ -16,57 +17,28 @@ import VendorStatusBadge from "../components/VendorStatusBadge";
 import VendorTableCard from "../components/VendorTableCard";
 
 const orders = [
-  {
-    id: "10021",
-    order: "#ORD-10021",
-    date: "2026-06-04",
-    items: 3,
-    total: "$240",
-    status: "Processing",
-  },
-  {
-    id: "10012",
-    order: "#ORD-10012",
-    date: "2026-05-28",
-    items: 1,
-    total: "$80",
-    status: "Completed",
-  },
-  {
-    id: "10004",
-    order: "#ORD-10004",
-    date: "2026-05-14",
-    items: 2,
-    total: "$120",
-    status: "Completed",
-  },
+  { id: "10021", order: "#ORD-10021", date: "2026-06-04", items: 3, total: "$240", status: "processing" },
+  { id: "10012", order: "#ORD-10012", date: "2026-05-28", items: 1, total: "$80", status: "completed" },
+  { id: "10004", order: "#ORD-10004", date: "2026-05-14", items: 2, total: "$120", status: "completed" },
 ];
 
 const returns = [
-  {
-    id: "2001",
-    request: "#RET-2001",
-    product: "Wireless Gaming Mouse",
-    date: "2026-06-04",
-    status: "Pending",
-  },
+  { id: "2001", request: "#RET-2001", product: "Wireless Gaming Mouse", date: "2026-06-04", status: "pending" },
 ];
 
 export default function VendorCustomerDetailPage() {
   const { id } = useParams();
+  const { t } = useTranslation();
 
   return (
     <div className="space-y-6">
       <VendorPageHeader
-        title={`Customer #${id}`}
-        description="View vendor-specific customer profile, order history and return activity."
+        title={t("vendorPanel.customers.customerDetailTitle", { id })}
+        description={t("vendorPanel.customers.customerDetailDescription")}
         action={
-          <Link
-            to="/vendor/customers"
-            className="ms-btn-soft inline-flex items-center gap-2"
-          >
+          <Link to="/vendor/customers" className="ms-btn-soft inline-flex items-center gap-2">
             <ArrowLeft size={17} />
-            Back
+            {t("vendorPanel.common.back")}
           </Link>
         }
       />
@@ -83,7 +55,7 @@ export default function VendorCustomerDetailPage() {
             </h2>
 
             <p className="mt-1 text-sm font-semibold text-slate-500">
-              Customer ID #{id}
+              {t("vendorPanel.customers.customerId", { id })}
             </p>
 
             <div className="mt-5 space-y-3 text-sm">
@@ -102,80 +74,59 @@ export default function VendorCustomerDetailPage() {
             </div>
 
             <div className="mt-5">
-              <VendorStatusBadge status="Active" />
+              <VendorStatusBadge status="active" />
             </div>
           </div>
 
           <div className="rounded-2xl border border-panel-line bg-white p-5 shadow-sm dark:border-panel-darkLine dark:bg-panel-darkCard">
             <h3 className="text-lg font-black text-slate-950 dark:text-white">
-              Customer Notes
+              {t("vendorPanel.customers.customerNotes")}
             </h3>
             <textarea
               className="ms-input mt-4 min-h-32"
-              placeholder="Internal vendor note about this customer..."
-              defaultValue="Frequent buyer, prefers fast delivery and usually orders electronics accessories."
+              placeholder={t("vendorPanel.customers.notePlaceholder")}
+              defaultValue={t("vendorPanel.customers.noteDefault")}
             />
-            <button className="ms-btn-primary mt-4 w-full">Save Note</button>
+            <button className="ms-btn-primary mt-4 w-full">
+              {t("vendorPanel.common.saveNote")}
+            </button>
           </div>
         </div>
 
         <div className="space-y-6">
           <div className="grid gap-5 md:grid-cols-3">
-            <VendorStatCard
-              title="Total Orders"
-              value="12"
-              icon={ShoppingBag}
-            />
-            <VendorStatCard
-              title="Total Spent"
-              value="$1,240"
-              icon={WalletCards}
-              tone="green"
-            />
-            <VendorStatCard
-              title="Returns"
-              value="1"
-              icon={RotateCcw}
-              tone="orange"
-            />
+            <VendorStatCard title={t("vendorPanel.customers.totalOrders")} value="12" icon={ShoppingBag} />
+            <VendorStatCard title={t("vendorPanel.customers.totalSpent")} value="$1,240" icon={WalletCards} tone="green" />
+            <VendorStatCard title={t("vendorPanel.customers.returns")} value="1" icon={RotateCcw} tone="orange" />
           </div>
 
           <VendorTableCard
-            title="Order History"
-            description="Orders placed with this vendor store"
+            title={t("vendorPanel.customers.orderHistory")}
+            description={t("vendorPanel.customers.orderHistoryDescription")}
           >
             <table className="w-full min-w-[760px] text-left">
               <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500 dark:bg-white/5">
                 <tr>
-                  <th className="px-5 py-4">Order</th>
-                  <th className="px-5 py-4">Date</th>
-                  <th className="px-5 py-4">Items</th>
-                  <th className="px-5 py-4">Total</th>
-                  <th className="px-5 py-4">Status</th>
-                  <th className="px-5 py-4 text-right">Action</th>
+                  <th className="px-5 py-4">{t("vendorPanel.customers.order")}</th>
+                  <th className="px-5 py-4">{t("vendorPanel.common.date")}</th>
+                  <th className="px-5 py-4">{t("vendorPanel.customers.items")}</th>
+                  <th className="px-5 py-4">{t("vendorPanel.customers.total")}</th>
+                  <th className="px-5 py-4">{t("vendorPanel.common.status")}</th>
+                  <th className="px-5 py-4 text-right">{t("vendorPanel.common.action")}</th>
                 </tr>
               </thead>
 
               <tbody className="divide-y divide-panel-line dark:divide-panel-darkLine">
                 {orders.map((order) => (
                   <tr key={order.id}>
-                    <td className="px-5 py-4 font-black text-slate-950 dark:text-white">
-                      {order.order}
-                    </td>
-                    <td className="px-5 py-4 text-sm font-bold text-slate-500">
-                      {order.date}
-                    </td>
+                    <td className="px-5 py-4 font-black text-slate-950 dark:text-white">{order.order}</td>
+                    <td className="px-5 py-4 text-sm font-bold text-slate-500">{order.date}</td>
                     <td className="px-5 py-4">{order.items}</td>
                     <td className="px-5 py-4 font-black">{order.total}</td>
-                    <td className="px-5 py-4">
-                      <VendorStatusBadge status={order.status} />
-                    </td>
+                    <td className="px-5 py-4"><VendorStatusBadge status={order.status} /></td>
                     <td className="px-5 py-4 text-right">
-                      <Link
-                        to={`/vendor/orders/${order.id}`}
-                        className="ms-btn-soft"
-                      >
-                        View
+                      <Link to={`/vendor/orders/${order.id}`} className="ms-btn-soft">
+                        {t("vendorPanel.common.view")}
                       </Link>
                     </td>
                   </tr>
@@ -185,39 +136,30 @@ export default function VendorCustomerDetailPage() {
           </VendorTableCard>
 
           <VendorTableCard
-            title="Return History"
-            description="Return requests from this customer"
+            title={t("vendorPanel.customers.returnHistory")}
+            description={t("vendorPanel.customers.returnHistoryDescription")}
           >
             <table className="w-full min-w-[700px] text-left">
               <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500 dark:bg-white/5">
                 <tr>
-                  <th className="px-5 py-4">Return</th>
-                  <th className="px-5 py-4">Product</th>
-                  <th className="px-5 py-4">Date</th>
-                  <th className="px-5 py-4">Status</th>
-                  <th className="px-5 py-4 text-right">Action</th>
+                  <th className="px-5 py-4">{t("vendorPanel.customers.return")}</th>
+                  <th className="px-5 py-4">{t("vendorPanel.customers.product")}</th>
+                  <th className="px-5 py-4">{t("vendorPanel.common.date")}</th>
+                  <th className="px-5 py-4">{t("vendorPanel.common.status")}</th>
+                  <th className="px-5 py-4 text-right">{t("vendorPanel.common.action")}</th>
                 </tr>
               </thead>
 
               <tbody className="divide-y divide-panel-line dark:divide-panel-darkLine">
                 {returns.map((item) => (
                   <tr key={item.id}>
-                    <td className="px-5 py-4 font-black text-slate-950 dark:text-white">
-                      {item.request}
-                    </td>
+                    <td className="px-5 py-4 font-black text-slate-950 dark:text-white">{item.request}</td>
                     <td className="px-5 py-4 font-bold">{item.product}</td>
-                    <td className="px-5 py-4 text-sm font-bold text-slate-500">
-                      {item.date}
-                    </td>
-                    <td className="px-5 py-4">
-                      <VendorStatusBadge status={item.status} />
-                    </td>
+                    <td className="px-5 py-4 text-sm font-bold text-slate-500">{item.date}</td>
+                    <td className="px-5 py-4"><VendorStatusBadge status={item.status} /></td>
                     <td className="px-5 py-4 text-right">
-                      <Link
-                        to={`/vendor/returns/${item.id}`}
-                        className="ms-btn-soft"
-                      >
-                        View
+                      <Link to={`/vendor/returns/${item.id}`} className="ms-btn-soft">
+                        {t("vendorPanel.common.view")}
                       </Link>
                     </td>
                   </tr>

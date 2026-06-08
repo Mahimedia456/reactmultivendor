@@ -10,10 +10,12 @@ import {
   WalletCards,
 } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import VendorStatusBadge from "./components/VendorStatusBadge";
 
 export default function VendorDetailPage() {
   const { id } = useParams();
+  const { t } = useTranslation();
 
   const vendor = {
     id,
@@ -29,6 +31,22 @@ export default function VendorDetailPage() {
     orders: 420,
   };
 
+  const stats = [
+    ["vendorsPage.totalSales", vendor.totalSales, CreditCard],
+    ["vendorsPage.orders", vendor.orders, ShoppingCart],
+    ["vendorsPage.products", vendor.products, Package],
+    ["vendorsPage.wallet", vendor.wallet, WalletCards],
+  ];
+
+  const info = [
+    ["vendorsPage.storeName", vendor.store],
+    ["vendorsPage.owner", vendor.owner],
+    ["vendorsPage.email", vendor.email],
+    ["vendorsPage.phone", vendor.phone],
+    ["vendorsPage.commission", vendor.commission],
+    ["vendorsPage.status", t(`vendorsPage.${vendor.status}`)],
+  ];
+
   return (
     <div className="space-y-5">
       <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
@@ -38,7 +56,7 @@ export default function VendorDetailPage() {
             className="mb-3 inline-flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-brand-700"
           >
             <ArrowLeft size={16} />
-            Back to vendors
+            {t("vendorsPage.backToVendors")}
           </Link>
 
           <div className="flex items-center gap-3">
@@ -58,23 +76,18 @@ export default function VendorDetailPage() {
           <VendorStatusBadge status={vendor.status} />
           <Link to={`/admin/vendors/${id}/edit`} className="ms-btn-primary gap-2">
             <Edit size={17} />
-            Edit Vendor
+            {t("vendorsPage.editVendor")}
           </Link>
         </div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-4">
-        {[
-          ["Total Sales", vendor.totalSales, CreditCard],
-          ["Orders", vendor.orders, ShoppingCart],
-          ["Products", vendor.products, Package],
-          ["Wallet", vendor.wallet, WalletCards],
-        ].map(([label, value, Icon]) => (
-          <div key={label} className="ms-card p-5">
+        {stats.map(([labelKey, value, Icon]) => (
+          <div key={labelKey} className="ms-card p-5">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50 text-brand-700 dark:bg-brand-500/10 dark:text-brand-300">
               <Icon size={18} />
             </div>
-            <p className="mt-4 text-sm font-bold text-slate-500">{label}</p>
+            <p className="mt-4 text-sm font-bold text-slate-500">{t(labelKey)}</p>
             <h3 className="mt-1 text-xl font-black">{value}</h3>
           </div>
         ))}
@@ -82,23 +95,16 @@ export default function VendorDetailPage() {
 
       <div className="grid gap-5 xl:grid-cols-[1fr_360px]">
         <div className="ms-card p-5">
-          <h3 className="text-lg font-black">Vendor Information</h3>
+          <h3 className="text-lg font-black">{t("vendorsPage.vendorInformation")}</h3>
 
           <div className="mt-5 grid gap-4 md:grid-cols-2">
-            {[
-              ["Store Name", vendor.store],
-              ["Owner", vendor.owner],
-              ["Email", vendor.email],
-              ["Phone", vendor.phone],
-              ["Commission", vendor.commission],
-              ["Status", vendor.status],
-            ].map(([label, value]) => (
+            {info.map(([labelKey, value]) => (
               <div
-                key={label}
+                key={labelKey}
                 className="rounded-lg border border-panel-line p-4 dark:border-panel-darkLine"
               >
                 <p className="text-xs font-black uppercase text-slate-400">
-                  {label}
+                  {t(labelKey)}
                 </p>
                 <p className="mt-2 font-bold">{value}</p>
               </div>
@@ -108,46 +114,37 @@ export default function VendorDetailPage() {
 
         <aside className="space-y-5">
           <div className="ms-card p-5">
-            <h3 className="text-lg font-black">Admin Controls</h3>
+            <h3 className="text-lg font-black">{t("vendorsPage.adminControls")}</h3>
 
             <div className="mt-5 space-y-3">
-              <Link
-                to={`/admin/vendors/${id}/edit`}
-                className="ms-btn-soft w-full justify-between"
-              >
-                <span>Edit Vendor</span>
+              <Link to={`/admin/vendors/${id}/edit`} className="ms-btn-soft w-full justify-between">
+                <span>{t("vendorsPage.editVendor")}</span>
                 <Edit size={16} />
               </Link>
 
-              <Link
-                to={`/admin/vendors/${id}/documents`}
-                className="ms-btn-soft w-full justify-between"
-              >
-                <span>Vendor Documents</span>
+              <Link to={`/admin/vendors/${id}/documents`} className="ms-btn-soft w-full justify-between">
+                <span>{t("vendorsPage.vendorDocuments")}</span>
                 <FileText size={16} />
               </Link>
 
-              <Link
-                to={`/admin/vendors/${id}/wallet`}
-                className="ms-btn-soft w-full justify-between"
-              >
-                <span>Vendor Wallet</span>
+              <Link to={`/admin/vendors/${id}/wallet`} className="ms-btn-soft w-full justify-between">
+                <span>{t("vendorsPage.vendorWallet")}</span>
                 <span>{vendor.wallet}</span>
               </Link>
 
               <button className="ms-btn-soft w-full justify-between">
-                <span>Change Commission</span>
+                <span>{t("vendorsPage.changeCommission")}</span>
                 <span>{vendor.commission}</span>
               </button>
 
               <button className="ms-btn-soft w-full justify-between">
-                <span>View Store</span>
+                <span>{t("vendorsPage.viewStore")}</span>
                 <Building2 size={16} />
               </button>
 
               <button className="ms-btn-soft w-full justify-between text-rose-700">
-                <span>Suspend Vendor</span>
-                <span>Risk</span>
+                <span>{t("vendorsPage.suspendVendor")}</span>
+                <span>{t("vendorsPage.risk")}</span>
               </button>
             </div>
           </div>

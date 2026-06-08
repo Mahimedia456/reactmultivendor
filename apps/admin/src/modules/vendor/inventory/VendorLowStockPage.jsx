@@ -1,5 +1,7 @@
 import { AlertTriangle, Edit, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
 import VendorPageHeader from "../components/VendorPageHeader";
 import VendorTableCard from "../components/VendorTableCard";
 
@@ -10,29 +12,34 @@ const rows = [
 ];
 
 export default function VendorLowStockPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="space-y-6">
       <VendorPageHeader
-        title="Low Stock"
-        description="Products that need restocking based on vendor stock threshold."
+        title={t("vendorPanel.inventory.lowStockTitle")}
+        description={t("vendorPanel.inventory.lowStockDescription")}
         action={
           <Link to="/vendor/inventory/adjustments" className="ms-btn-primary inline-flex items-center gap-2">
             <Plus size={17} />
-            Restock Product
+            {t("vendorPanel.inventory.restockProduct")}
           </Link>
         }
       />
 
-      <VendorTableCard title="Low Stock Products" description="Items below threshold">
+      <VendorTableCard
+        title={t("vendorPanel.inventory.lowStockProducts")}
+        description={t("vendorPanel.inventory.lowStockProductsDescription")}
+      >
         <table className="w-full min-w-[760px] text-left">
           <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500 dark:bg-white/5">
             <tr>
-              <th className="px-5 py-4">Product</th>
-              <th className="px-5 py-4">SKU</th>
-              <th className="px-5 py-4">Current Stock</th>
-              <th className="px-5 py-4">Threshold</th>
-              <th className="px-5 py-4">Alert</th>
-              <th className="px-5 py-4 text-right">Action</th>
+              <th className="px-5 py-4">{t("vendorPanel.inventory.product")}</th>
+              <th className="px-5 py-4">{t("vendorPanel.inventory.sku")}</th>
+              <th className="px-5 py-4">{t("vendorPanel.inventory.currentStock")}</th>
+              <th className="px-5 py-4">{t("vendorPanel.inventory.threshold")}</th>
+              <th className="px-5 py-4">{t("vendorPanel.inventory.alert")}</th>
+              <th className="px-5 py-4 text-right">{t("vendorPanel.common.action")}</th>
             </tr>
           </thead>
 
@@ -46,7 +53,7 @@ export default function VendorLowStockPage() {
                 <td className="px-5 py-4">
                   <span className="inline-flex items-center gap-2 rounded-full bg-orange-500/15 px-3 py-1 text-xs font-black text-orange-600">
                     <AlertTriangle size={14} />
-                    Low Stock
+                    {t("vendorPanel.inventory.lowStock")}
                   </span>
                 </td>
                 <td className="px-5 py-4">

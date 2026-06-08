@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Eye, Filter, Plus, Search, Store } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import VendorStatusBadge from "./components/VendorStatusBadge";
 
 const vendors = [
@@ -39,29 +40,37 @@ const vendors = [
 ];
 
 export default function VendorsPage() {
+  const { t } = useTranslation();
+
+  const stats = [
+    ["vendorsPage.totalVendors", "126"],
+    ["vendorsPage.activeVendors", "118"],
+    ["vendorsPage.pendingRequests", "8"],
+    ["vendorsPage.suspended", "3"],
+  ];
+
   return (
     <div className="space-y-5">
       <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
         <div>
-          <p className="text-sm font-bold text-slate-500">Marketplace / Vendors</p>
-          <h1 className="mt-1 text-2xl font-black">Vendors</h1>
+          <p className="text-sm font-bold text-slate-500">
+            {t("vendorsPage.breadcrumb")}
+          </p>
+          <h1 className="mt-1 text-2xl font-black">{t("vendorsPage.title")}</h1>
         </div>
 
         <Link to="/admin/vendors/create" className="ms-btn-primary gap-2">
-  <Plus size={17} />
-  Add Vendor
-</Link>
+          <Plus size={17} />
+          {t("vendorsPage.addVendor")}
+        </Link>
       </div>
 
       <div className="grid gap-4 md:grid-cols-4">
-        {[
-          ["Total Vendors", "126"],
-          ["Active Vendors", "118"],
-          ["Pending Requests", "8"],
-          ["Suspended", "3"],
-        ].map(([label, value]) => (
-          <div key={label} className="ms-card p-5">
-            <p className="text-sm font-bold text-slate-500 dark:text-slate-400">{label}</p>
+        {stats.map(([labelKey, value]) => (
+          <div key={labelKey} className="ms-card p-5">
+            <p className="text-sm font-bold text-slate-500 dark:text-slate-400">
+              {t(labelKey)}
+            </p>
             <h3 className="mt-2 text-2xl font-black">{value}</h3>
           </div>
         ))}
@@ -73,13 +82,13 @@ export default function VendorsPage() {
             <Search size={17} className="text-slate-400" />
             <input
               className="w-full bg-transparent text-sm font-medium outline-none"
-              placeholder="Search vendors..."
+              placeholder={t("vendorsPage.searchPlaceholder")}
             />
           </div>
 
           <button className="ms-btn-soft gap-2">
             <Filter size={17} />
-            Filters
+            {t("vendorsPage.filters")}
           </button>
         </div>
 
@@ -87,14 +96,14 @@ export default function VendorsPage() {
           <table className="w-full min-w-[950px] text-left">
             <thead className="ms-table-head">
               <tr>
-                <th className="px-5 py-3">Store</th>
-                <th className="px-5 py-3">Owner</th>
-                <th className="px-5 py-3">Products</th>
-                <th className="px-5 py-3">Orders</th>
-                <th className="px-5 py-3">Commission</th>
-                <th className="px-5 py-3">Wallet</th>
-                <th className="px-5 py-3">Status</th>
-                <th className="px-5 py-3 text-right">Action</th>
+                <th className="px-5 py-3">{t("vendorsPage.store")}</th>
+                <th className="px-5 py-3">{t("vendorsPage.owner")}</th>
+                <th className="px-5 py-3">{t("vendorsPage.products")}</th>
+                <th className="px-5 py-3">{t("vendorsPage.orders")}</th>
+                <th className="px-5 py-3">{t("vendorsPage.commission")}</th>
+                <th className="px-5 py-3">{t("vendorsPage.wallet")}</th>
+                <th className="px-5 py-3">{t("vendorsPage.status")}</th>
+                <th className="px-5 py-3 text-right">{t("vendorsPage.action")}</th>
               </tr>
             </thead>
 
@@ -123,7 +132,7 @@ export default function VendorsPage() {
                   <td className="px-5 py-4 text-right">
                     <Link to={`/admin/vendors/${vendor.id}`} className="ms-btn-soft gap-2">
                       <Eye size={16} />
-                      View
+                      {t("vendorsPage.view")}
                     </Link>
                   </td>
                 </tr>
