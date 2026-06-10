@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "workspaces": [
     "apps/admin",
-    "apps/storefront",
+    "apps/store",
     "apps/api",
     "packages/*"
   ],
@@ -17,7 +17,7 @@
   },
   "scripts": {
     "dev:admin": "npm run dev --workspace apps/admin",
-    "dev:store": "npm run dev --workspace apps/storefront",
+"dev:store": "npm run dev --workspace apps/store",
     "dev:api": "npm run dev --workspace apps/api",
     "dev": "concurrently \"npm run dev:api\" \"npm run dev:admin\" \"npm run dev:store\""
   },
